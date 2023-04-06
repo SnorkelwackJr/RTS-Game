@@ -251,7 +251,7 @@ MonoBehaviour:
   movementTime: 6
   zoomAmount: {x: 0, y: -0.1, z: 0.1}
   newPosition: {x: 0, y: 0, z: 0}
-  newZoom: {x: 0, y: 0, z: 0}
+  newZoom: {x: 0, y: 5, z: -5}
 --- !u!4 &930721983
 Transform:
   m_ObjectHideFlags: 0

@@ -51,7 +51,7 @@ public class CameraController : MonoBehaviour
         if (Input.GetKey(KeyCode.Q))
         {
             // zoom in boundary
-            if (newZoom.y > 5 && newZoom.z < 5) 
+            if (newZoom.y > 10 && newZoom.z < 10) 
             {
                 newZoom += zoomAmount;
             }
@@ -59,7 +59,7 @@ public class CameraController : MonoBehaviour
         if (Input.GetKey(KeyCode.E))
         {
             // zoom out boundary
-            if (newZoom.y < rigOrigin.y+80 && newZoom.z < rigOrigin.z+80) 
+            if (newZoom.y < rigOrigin.y+100 && newZoom.z < rigOrigin.z+100) 
             {
                 newZoom -= zoomAmount;
             }
