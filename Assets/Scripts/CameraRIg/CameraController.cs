@@ -18,6 +18,7 @@ public class CameraController : MonoBehaviour
     {
         newPosition = transform.position;
         newZoom = cameraTransform.localPosition;
+        zoomAmount = new Vector3(0, -5, 5);
     }
 
     // Update is called once per frame
@@ -48,7 +49,7 @@ public class CameraController : MonoBehaviour
 
         // Zoom in/out
         Vector3 rigOrigin = new Vector3(0, 1, 0);
-        if (Input.GetKey(KeyCode.Q))
+        if (Input.GetAxis("Mouse ScrollWheel") > 0f )
         {
             // zoom in boundary
             if (newZoom.y > 10 && newZoom.z < 10) 
@@ -56,7 +57,7 @@ public class CameraController : MonoBehaviour
                 newZoom += zoomAmount;
             }
         }
-        if (Input.GetKey(KeyCode.E))
+        if (Input.GetAxis("Mouse ScrollWheel") < 0f )
         {
             // zoom out boundary
             if (newZoom.y < rigOrigin.y+100 && newZoom.z < rigOrigin.z+100) 
