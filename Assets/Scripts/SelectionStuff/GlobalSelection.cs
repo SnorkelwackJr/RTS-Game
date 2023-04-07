@@ -36,29 +36,29 @@ public class GlobalSelection : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //1. when left mouse button clicked (but not released)
+        // 1. when left mouse button clicked (but not released)
         if (Input.GetMouseButtonDown(0))
         {
             p1 = Input.mousePosition;
         }
 
-        //2. while left mouse button held
+        // 2. while left mouse button held
         if (Input.GetMouseButton(0))
         {
-            if((p1 - Input.mousePosition).magnitude > 40) //FIXME magic number 40!
+            if ((p1 - Input.mousePosition).magnitude > 40) //FIXME magic number 40!
             {
                 dragSelect = true;
             }
         }
 
-        //3. when mouse button comes up
+        // 3. when mouse button comes up
         if (Input.GetMouseButtonUp(0))
         {
             if(dragSelect == false) //single select
             {
                 Ray ray = Camera.main.ScreenPointToRay(p1);
 
-                if(Physics.Raycast(ray,out hit, 50000.0f) && hit.transform.gameObject.layer == 0)
+                if (Physics.Raycast(ray,out hit, 50000.0f) && hit.transform.gameObject.layer == 0)
                 {
                     if (Input.GetKey(KeyCode.LeftShift)) //inclusive select
                     {
@@ -122,7 +122,52 @@ public class GlobalSelection : MonoBehaviour
 
             dragSelect = false;
         }
-       
+
+        // 4. move selected units
+        if (Input.GetMouseButtonUp(1) && selectedTable.selectedTable.Count > 0)
+        {
+            GameObject target = null;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+            // if we hit a unit, set that unit to be the new target
+            if (Physics.Raycast(ray,out hit, 50000.0f) && hit.transform.gameObject.layer == 0)
+            {
+                Debug.Log("Selected a unit target.");
+                target = hit.transform.gameObject;
+            }
+
+            // if we hit the ground, make a target object there?
+            else if (Physics.Raycast(ray, out hit, 50000.0f, (1 << 8)))
+            {
+                Debug.Log("Selected a ground target.");
+                target = new GameObject("Ground location target"); //FIXME
+                target.transform.position = hit.point;
+            } 
+
+            // set units to move if it was a valid target
+            if (target != null)
+            {
+                foreach(KeyValuePair<int,GameObject> unit in selectedTable.selectedTable)
+                {
+                    // change agent move script values
+                    GameObject unitObject = unit.Value;
+                    BaseBehavior unitBehavior = unitObject.GetComponent<BaseBehavior>();
+                    if (unitBehavior != null)
+                    {
+                        unitBehavior.seek = target.GetComponent<SeekScript>();
+                        unitBehavior.agentScript = target.GetComponent<Agent>();
+                        unitBehavior.seekScript = target.GetComponent<Seek>();
+                        //unitBehavior.fleeScript = target.GetComponent<FleeScript>();
+                    }
+
+                    Seek seek = unitObject.GetComponent<Seek>();
+                    if (seek != null)
+                    {
+                        seek.target = target;
+                    }
+                }
+            }
+        }
     }
 
     private void OnGUI()
