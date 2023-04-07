@@ -25,6 +25,8 @@ public class GlobalSelection : MonoBehaviour
     Vector3[] verts;
     Vector3[] vecs;
 
+    public UnityEngine.AI.NavMeshAgent agent;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -126,45 +128,16 @@ public class GlobalSelection : MonoBehaviour
         // 4. move selected units
         if (Input.GetMouseButtonUp(1) && selectedTable.selectedTable.Count > 0)
         {
-            GameObject target = null;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-            // if we hit a unit, set that unit to be the new target
-            if (Physics.Raycast(ray,out hit, 50000.0f) && hit.transform.gameObject.layer == 0)
-            {
-                Debug.Log("Selected a unit target.");
-                target = hit.transform.gameObject;
-            }
-
-            // if we hit the ground, make a target object there?
-            else if (Physics.Raycast(ray, out hit, 50000.0f, (1 << 8)))
-            {
-                Debug.Log("Selected a ground target.");
-                target = new GameObject("Ground location target"); //FIXME
-                target.transform.position = hit.point;
-            } 
-
-            // set units to move if it was a valid target
-            if (target != null)
+            if (Physics.Raycast(ray, out hit, 1000f, (1 << 8)))
             {
                 foreach(KeyValuePair<int,GameObject> unit in selectedTable.selectedTable)
                 {
-                    // change agent move script values
-                    GameObject unitObject = unit.Value;
-                    BaseBehavior unitBehavior = unitObject.GetComponent<BaseBehavior>();
-                    if (unitBehavior != null)
-                    {
-                        unitBehavior.seek = target.GetComponent<SeekScript>();
-                        unitBehavior.agentScript = target.GetComponent<Agent>();
-                        unitBehavior.seekScript = target.GetComponent<Seek>();
-                        //unitBehavior.fleeScript = target.GetComponent<FleeScript>();
-                    }
-
-                    Seek seek = unitObject.GetComponent<Seek>();
-                    if (seek != null)
-                    {
-                        seek.target = target;
-                    }
+                    GameObject unitObj = unit.Value;
+                    agent = unitObj.GetComponent<UnityEngine.AI.NavMeshAgent>();
+                    agent.speed = 20.0f;
+                    agent.acceleration = 20.0f;
+                    agent.SetDestination(hit.point);
                 }
             }
         }
