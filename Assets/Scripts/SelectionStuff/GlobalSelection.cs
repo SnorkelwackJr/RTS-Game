@@ -60,7 +60,7 @@ public class GlobalSelection : MonoBehaviour
             {
                 Ray ray = Camera.main.ScreenPointToRay(p1);
 
-                if (Physics.Raycast(ray,out hit, 50000.0f) && hit.transform.gameObject.layer == 0)
+                if (Physics.Raycast(ray,out hit, 50000.0f) && hit.transform.gameObject.tag == "Unit")
                 {
                     if (Input.GetKey(KeyCode.LeftShift)) //inclusive select
                     {
@@ -129,7 +129,7 @@ public class GlobalSelection : MonoBehaviour
         if (Input.GetMouseButtonUp(1) && selectedTable.selectedTable.Count > 0)
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out hit, 1000f, (1 << 8)))
+            if (Physics.Raycast(ray, out hit, 1000f, Globals.TERRAIN_LAYER_MASK))
             {
                 foreach(KeyValuePair<int,GameObject> unit in selectedTable.selectedTable)
                 {
