@@ -137,6 +137,7 @@ public class GlobalSelection : MonoBehaviour
                     agent = unitObj.GetComponent<UnityEngine.AI.NavMeshAgent>();
                     agent.speed = 20.0f;
                     agent.acceleration = 20.0f;
+                    agent.radius = 2.0f;
                     agent.SetDestination(hit.point);
                 }
             }
