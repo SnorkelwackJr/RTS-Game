@@ -1,20 +1,34 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    public Transform buildingMenu;
+    private BlueprintScript _blueprintScript;
+
+    public Transform contextualMenu;
     public GameObject buildingButtonPrefab;
-    // Start is called before the first frame update
-    void Start()
+
+    private void Awake()
     {
-        
+        _blueprintScript = GetComponent<BlueprintScript>();
+
+        for (int i = 0; i < Globals.BUILDING_DATA.Length; i++)
+        {
+            GameObject button = GameObject.Instantiate(
+                buildingButtonPrefab,
+                contextualMenu);
+            string code = Globals.BUILDING_DATA[i].Code;
+            button.name = code;
+            button.transform.Find("Text").GetComponent<Text>().text = code;
+            Button b = button.GetComponent<Button>();
+            //_AddBuildingButtonListener(b, i);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    /*private void _AddBuildingButtonListener(Button b, int i)
     {
-        
-    }
+        b.onClick.AddListener(() => _blueprintScript.SelectPlacedBuilding(i));   
+    }*/
 }
