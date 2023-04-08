@@ -3,6 +3,7 @@ using System.Collections.Generic;
 public class Globals
 {
     public static int TERRAIN_LAYER_MASK = 1 << 8;
+    public static List<UnitManager> SELECTED_UNITS = new List<UnitManager>();
 
     public static BuildingData[] BUILDING_DATA = new BuildingData[]
     {
