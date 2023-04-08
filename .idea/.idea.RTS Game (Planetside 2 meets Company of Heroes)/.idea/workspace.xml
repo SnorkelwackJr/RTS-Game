@@ -2,20 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0a6cf17f-952a-47cb-b5bf-29d8fb7a4e97" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.RTS Game (Planetside 2 meets Company of Heroes)/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RTS Game (Planetside 2 meets Company of Heroes)/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CameraController.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/CameraController.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Canopus-III_Low-Poly_Sci-Fi_Desert_Units_Set/materials/mtrl_canopus-iii_set01-red.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Canopus-III_Low-Poly_Sci-Fi_Desert_Units_Set/materials/mtrl_canopus-iii_set01-red.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Materials.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Materials/Grass.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Materials/Grass.mat.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/SelectionStuff.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/SelectionStuff/GlobalSelection.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/SelectionStuff/GlobalSelection.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/SelectionStuff/SelectedDictionary.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/SelectionStuff/SelectedDictionary.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/SelectionStuff/SelectionComponent.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/SelectionStuff/SelectionComponent.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/SelectionStuff/Utils.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/SelectionStuff/Utils.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CameraRIg/CameraController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CameraRIg/CameraController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/SelectionStuff/GlobalSelection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/SelectionStuff/GlobalSelection.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -47,11 +39,23 @@
       <workItem from="1680765665408" duration="1000" />
       <workItem from="1680808195016" duration="4000" />
       <workItem from="1680825469552" duration="2000" />
+      <workItem from="1680890298083" duration="4000" />
     </task>
     <servers />
   </component>
   <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
   <component name="UnityUnitTestConfiguration" currentTestLauncher="NUnit" />
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
   </component>
