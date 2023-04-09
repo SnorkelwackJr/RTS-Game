@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum BuildingPlacement
+public enum BuildingPlacementState
 {
     VALID,
     INVALID,
@@ -15,7 +15,7 @@ public class Building
     private BuildingData _data;
     private Transform _transform;
     private int _currentHealth;
-    private BuildingPlacement _placement;
+    private BuildingPlacementState _placement;
     private List<Material> _materials;
     private BuildingManager _buildingManager;
     
@@ -30,7 +30,7 @@ public class Building
         _transform = g.transform;
 
         // set building mode as "valid" placement
-        _placement = BuildingPlacement.VALID;
+        _placement = BuildingPlacementState.VALID;
 
         _materials = new List<Material>();
         foreach (Material material in _transform.Find("Mesh").GetComponent<Renderer>().materials)
@@ -40,16 +40,16 @@ public class Building
 
         // (set the materials to match the "valid" initial state)
         _buildingManager = g.GetComponent<BuildingManager>();
-        _placement = BuildingPlacement.VALID;
+        _placement = BuildingPlacementState.VALID;
         SetMaterials();
     }
 
     public void SetMaterials() { SetMaterials(_placement); }
 
-    public void SetMaterials(BuildingPlacement placement)
+    public void SetMaterials(BuildingPlacementState placement)
     {
         List<Material> materials;
-        if (placement == BuildingPlacement.VALID)
+        if (placement == BuildingPlacementState.VALID)
         {
             Material refMaterial = Resources.Load("Materials/Valid") as Material;
             materials = new List<Material>();
@@ -58,7 +58,7 @@ public class Building
                 materials.Add(refMaterial);
             }
         }
-        else if (placement == BuildingPlacement.INVALID)
+        else if (placement == BuildingPlacementState.INVALID)
         {
             Material refMaterial = Resources.Load("Materials/Invalid") as Material;
             materials = new List<Material>();
@@ -67,7 +67,7 @@ public class Building
                 materials.Add(refMaterial);
             }
         }
-        else if (placement == BuildingPlacement.FIXED)
+        else if (placement == BuildingPlacementState.FIXED)
         {
             materials = _materials;
         }
@@ -81,7 +81,7 @@ public class Building
     public void Place()
     {
         // set placement state
-        _placement = BuildingPlacement.FIXED;
+        _placement = BuildingPlacementState.FIXED;
         // change building materials
         SetMaterials();
         // remove "is trigger" flag from box collider to allow
@@ -103,10 +103,10 @@ public class Building
 
     public void CheckValidPlacement()
     {
-        if (_placement == BuildingPlacement.FIXED) return;
+        if (_placement == BuildingPlacementState.FIXED) return;
         _placement = _buildingManager.CheckPlacement()
-            ? BuildingPlacement.VALID
-            : BuildingPlacement.INVALID;
+            ? BuildingPlacementState.VALID
+            : BuildingPlacementState.INVALID;
     }
 
     public void SetPosition(Vector3 position)
@@ -122,9 +122,9 @@ public class Building
 
     public int MaxHP { get => _data.HP; }
 
-    public bool IsFixed { get => _placement == BuildingPlacement.FIXED; }
+    public bool IsFixed { get => _placement == BuildingPlacementState.FIXED; }
 
-    public bool HasValidPlacement { get => _placement == BuildingPlacement.VALID; }
+    public bool HasValidPlacement { get => _placement == BuildingPlacementState.VALID; }
 
     public int DataIndex
     {
