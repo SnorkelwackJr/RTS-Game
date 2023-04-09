@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6642807889081507023}
   - component: {fileID: 843352540659272855}
   m_Layer: 0
-  m_Name: Building
+  m_Name: House
   m_TagString: Unit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -129,7 +129,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d47e5ac8c005fd240afb8c58d9d08743, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectionCircle: {fileID: 0}
+  selectionCircle: {fileID: 6218855687493729741}
 --- !u!1 &4896908203683164965
 GameObject:
   m_ObjectHideFlags: 0

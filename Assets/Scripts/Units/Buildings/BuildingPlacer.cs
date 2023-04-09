@@ -7,13 +7,6 @@ public class BuildingPlacer : MonoBehaviour
     private RaycastHit _raycastHit;
     private Vector3 _lastPlacementPosition;
 
-    void Start()
-    {
-        // for now, we'll automatically pick our first
-        // building type as the type we want to build
-        _PreparePlacedBuilding(0);
-    }
-
     void Update()
     {
         if (_placedBuilding != null)
@@ -45,6 +38,11 @@ public class BuildingPlacer : MonoBehaviour
                 _PlaceBuilding();
             }
         }
+    }
+
+    public void SelectPlacedBuilding(int buildingDataIndex)
+    {
+        _PreparePlacedBuilding(buildingDataIndex);
     }
 
     void _PreparePlacedBuilding(int buildingDataIndex)
