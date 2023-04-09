@@ -22,7 +22,7 @@ public class UIManager : MonoBehaviour
         {
             GameObject display = Instantiate(gameResourceDisplayPrefab, resourcesUIParent);
             display.name = pair.Key;
-            _resourceTexts[pair.Key] = display.transform.Find("Text (TMP)").GetComponent<TMPro.TextMeshProUGUI>();
+            _resourceTexts[pair.Key] = display.transform.Find("Text").GetComponent<TMPro.TextMeshProUGUI>();
             _SetResourceText(pair.Key, pair.Value.Amount);
         }
 
@@ -32,7 +32,7 @@ public class UIManager : MonoBehaviour
         for (int i = 0; i < Globals.BUILDING_DATA.Length; i++)
         {
             GameObject button = GameObject.Instantiate(buildingButtonPrefab) as GameObject;
-            button.transform.parent = buildingMenu;
+            button.transform.SetParent(buildingMenu, false);
             button.transform.localPosition = new Vector3(-286*i, 63*i, 0);
             string code = Globals.BUILDING_DATA[i].Code;
             button.name = code;
