@@ -23,8 +23,8 @@ public class Globals
     public static Dictionary<string, GameResource> GAME_RESOURCES =
         new Dictionary<string, GameResource>()
         {
-            { "gold", new GameResource("Gold", 0) },
-            { "wood", new GameResource("Wood", 0) },
-            { "stone", new GameResource("Stone", 0) }
+            { "gold", new GameResource("Gold", 9999) },
+            { "wood", new GameResource("Wood", 9999) },
+            { "stone", new GameResource("Stone", 9999) }
         };
 }
