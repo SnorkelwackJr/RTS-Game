@@ -35,44 +35,22 @@ public class BuildingManager : UnitManager
         bool validPlacement = HasValidPlacement();
         if (!validPlacement)
         {
-            _building.SetMaterials(BuildingPlacement.INVALID);
+            _building.SetMaterials(BuildingPlacementState.INVALID);
         }
         else
         {
-            _building.SetMaterials(BuildingPlacement.VALID);
+            _building.SetMaterials(BuildingPlacementState.VALID);
         }
         return validPlacement;
     }
 
     public bool HasValidPlacement()
-{
-    if (_nCollisions > 0) return false;
+    {
+        return _nCollisions == 0;
+    }
 
-        // get 4 bottom corner positions
-        Vector3 p = transform.position;
-        Vector3 c = _collider.center;
-        Vector3 e = _collider.size / 2f;
-        float bottomHeight = c.y - e.y + 0.5f;
-        Vector3[] bottomCorners = new Vector3[]
-        {
-            new Vector3(c.x - e.x, bottomHeight, c.z - e.z),
-            new Vector3(c.x - e.x, bottomHeight, c.z + e.z),
-            new Vector3(c.x + e.x, bottomHeight, c.z - e.z),
-            new Vector3(c.x + e.x, bottomHeight, c.z + e.z)
-        };
-        // cast a small ray beneath the corner to check for a close ground
-        // (if at least two are not valid, then placement is invalid)
-        int invalidCornersCount = 0;
-        foreach (Vector3 corner in bottomCorners)
-        {
-            if (!Physics.Raycast(
-                p + corner,
-                Vector3.up * -1f,
-                2f,
-                Globals.TERRAIN_LAYER_MASK
-            ))
-                invalidCornersCount++;
-        }
-        return invalidCornersCount < 3;
+    protected override bool IsActive()
+    {
+        return _building.IsFixed;
     }
 }

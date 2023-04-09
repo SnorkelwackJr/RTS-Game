@@ -8,7 +8,15 @@ public class UnitManager : MonoBehaviour
 
     private void OnMouseDown()
     {
-       Select(true);
+       if (IsActive())
+       {
+            Select(true);
+       }
+    }
+
+    protected virtual bool IsActive()
+    {
+        return true;
     }
 
     public void Select() { Select(false); }

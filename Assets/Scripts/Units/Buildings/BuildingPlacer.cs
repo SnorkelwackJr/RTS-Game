@@ -66,12 +66,7 @@ public class BuildingPlacer : MonoBehaviour
     void _PlaceBuilding()
     {
         _placedBuilding.Place();
-        if (_placedBuilding.CanBuy())
-            _PreparePlacedBuilding(_placedBuilding.DataIndex);
-        else
-            _placedBuilding = null;
-        //_uiManager.UpdateResourceTexts();
-        //_uiManager.CheckBuildingButtons();
+        _PreparePlacedBuilding(_placedBuilding.DataIndex);
     }
 
     void _CancelPlacedBuilding()
