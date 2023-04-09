@@ -5,14 +5,14 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    private BlueprintScript _blueprintScript;
+    //private BlueprintScript _blueprintScript;
 
     public Transform contextualMenu;
     public GameObject buildingButtonPrefab;
 
     private void Awake()
     {
-        _blueprintScript = GetComponent<BlueprintScript>();
+        //_blueprintScript = GetComponent<BlueprintScript>();
 
         for (int i = 0; i < Globals.BUILDING_DATA.Length; i++)
         {
