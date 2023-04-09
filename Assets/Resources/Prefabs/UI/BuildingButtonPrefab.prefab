@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7850025982579672269}
   - component: {fileID: 8200293207837407652}
   m_Layer: 5
-  m_Name: BuildBuilding
+  m_Name: BuildingButtonPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
