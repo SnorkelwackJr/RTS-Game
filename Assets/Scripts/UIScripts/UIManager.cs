@@ -48,6 +48,18 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        EventManager.AddListener("UpdateResourceTexts", _OnUpdateResourceTexts);
+        EventManager.AddListener("CheckBuildingButtons", _OnCheckBuildingButtons);
+    }
+
+    private void OnDisable()
+    {
+        EventManager.RemoveListener("UpdateResourceTexts", _OnUpdateResourceTexts);
+        EventManager.RemoveListener("CheckBuildingButtons", _OnCheckBuildingButtons);
+    }
+
     private void _AddBuildingButtonListener(Button b, int i)
     {
         b.onClick.AddListener(() => _buildingPlacer.SelectPlacedBuilding(i));
@@ -69,6 +81,22 @@ public class UIManager : MonoBehaviour
     public void CheckBuildingButtons()
     {
         foreach (BuildingData data in Globals.BUILDING_DATA)
+        {
+            _buildingButtons[data.Code].interactable = data.CanBuy();
+        }
+    }
+
+    public void _OnUpdateResourceTexts()
+    {
+        foreach(KeyValuePair<string, GameResource> pair in Globals.GAME_RESOURCES)
+        {
+            _SetResourceText(pair.Key, pair.Value.Amount);
+        }
+    }
+
+    public void _OnCheckBuildingButtons()
+    {
+        foreach(BuildingData data in Globals.BUILDING_DATA)
         {
             _buildingButtons[data.Code].interactable = data.CanBuy();
         }

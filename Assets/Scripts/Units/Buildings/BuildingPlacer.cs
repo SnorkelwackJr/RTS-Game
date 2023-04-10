@@ -3,16 +3,10 @@ using UnityEngine.EventSystems;
 
 public class BuildingPlacer : MonoBehaviour
 {
-    private UIManager _uiManager;
     private Building _placedBuilding = null;
     private Ray _ray;
     private RaycastHit _raycastHit;
     private Vector3 _lastPlacementPosition;
-
-    private void Awake()
-    {
-        _uiManager = GetComponent<UIManager>();
-    }
 
     void Update()
     {
@@ -40,7 +34,7 @@ public class BuildingPlacer : MonoBehaviour
                 _lastPlacementPosition = _raycastHit.point;
             }
 
-            if (_placedBuilding.HasValidPlacement && Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
+            if (_placedBuilding.HasValidPlacement && Input.GetMouseButtonUp(0) && !EventSystem.current.IsPointerOverGameObject())
             {
                 _PlaceBuilding();
             }
@@ -82,9 +76,9 @@ public class BuildingPlacer : MonoBehaviour
         {
             _placedBuilding = null;
         }
+        EventManager.TriggerEvent("UpdateResourceTexts");
+        EventManager.TriggerEvent("CheckBuildingButtons");
 
-        _uiManager.UpdateResourceTexts();
-        _uiManager.CheckBuildingButtons();
     }
 
     void _CancelPlacedBuilding()

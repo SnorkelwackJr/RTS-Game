@@ -10,7 +10,7 @@ public class UnitManager : MonoBehaviour
     {
        if (IsActive())
        {
-            Select(true);
+            Select(true, Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift));
        }
     }
 
@@ -19,18 +19,39 @@ public class UnitManager : MonoBehaviour
         return true;
     }
 
-    public void Select() { Select(false); }
-    public void Select(bool clearSelection)
+    private void _SelectUtil()
     {
         if (Globals.SELECTED_UNITS.Contains(this)) return;
-        if (clearSelection)
+        Globals.SELECTED_UNITS.Add(this);
+        selectionCircle.SetActive(true);
+    }
+
+    public void Select() { Select(false, false); }
+    // Implement Shift-click drag
+    public void Select(bool singleClick, bool holdingShift)
+    {
+        // basic case: using the selection box
+        if (!singleClick)
+        {
+            _SelectUtil();
+            return;
+        }
+
+        // single click: check for shift key
+        if (!holdingShift)
         {
             List<UnitManager> selectedUnits = new List<UnitManager>(Globals.SELECTED_UNITS);
             foreach (UnitManager um in selectedUnits)
                 um.Deselect();
+            _SelectUtil();
         }
-        Globals.SELECTED_UNITS.Add(this);
-        selectionCircle.SetActive(true);
+        else
+        {
+            if (!Globals.SELECTED_UNITS.Contains(this))
+                _SelectUtil();
+            else
+                Deselect();
+        }
     }
 
     public void Deselect()
