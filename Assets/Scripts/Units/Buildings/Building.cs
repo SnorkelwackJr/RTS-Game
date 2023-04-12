@@ -22,24 +22,19 @@ public class Building
     public Building(BuildingData data)
     {
         _data = data;
-        _currentHealth = data.HP;
+        _currentHealth = data.healthpoints;
 
-        GameObject g = GameObject.Instantiate(
-            Resources.Load($"Prefabs/Buildings/{_data.Code}")
-        ) as GameObject;
+        GameObject g = GameObject.Instantiate(data.prefab) as GameObject;
         _transform = g.transform;
 
-        // set building mode as "valid" placement
-        _placement = BuildingPlacementState.VALID;
-
+        _buildingManager = _transform.GetComponent<BuildingManager>();
+        
         _materials = new List<Material>();
         foreach (Material material in _transform.Find("Mesh").GetComponent<Renderer>().materials)
         {
             _materials.Add(new Material(material));
         }
-
-        // (set the materials to match the "valid" initial state)
-        _buildingManager = g.GetComponent<BuildingManager>();
+        
         _placement = BuildingPlacementState.VALID;
         SetMaterials();
     }
@@ -90,9 +85,9 @@ public class Building
 
         // update game resources: remove the cost of the building
         // from each game resource
-        foreach (KeyValuePair<string, int> pair in _data.Cost)
+        foreach (ResourceValue resource in _data.cost)
         {
-            Globals.GAME_RESOURCES[pair.Key].AddAmount(-pair.Value);
+            Globals.GAME_RESOURCES[resource.code].AddAmount(-resource.amount);
         }
     }
 
@@ -114,24 +109,22 @@ public class Building
         _transform.position = position;
     }
 
-    public string Code { get => _data.Code; }
-
     public Transform Transform { get => _transform; }
 
     public int HP { get => _currentHealth; set => _currentHealth = value; }
-
-    public int MaxHP { get => _data.HP; }
 
     public bool IsFixed { get => _placement == BuildingPlacementState.FIXED; }
 
     public bool HasValidPlacement { get => _placement == BuildingPlacementState.VALID; }
 
+    public string Code { get => _data.code; }
+    public int MaxHP { get => _data.healthpoints; }
     public int DataIndex
     {
         get {
             for (int i = 0; i < Globals.BUILDING_DATA.Length; i++)
             {
-                if (Globals.BUILDING_DATA[i].Code == _data.Code)
+                if (Globals.BUILDING_DATA[i].code == _data.code)
                 {
                     return i;
                 }
