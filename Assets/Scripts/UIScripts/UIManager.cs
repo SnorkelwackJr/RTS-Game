@@ -38,9 +38,6 @@ public class UIManager : MonoBehaviour
             Button b = button.GetComponent<Button>();
             _buildingButtons[data.code] = b;
 
-            button.transform.SetParent(buildingMenu, false);
-            button.transform.localPosition = new Vector3(-286*i, 63*i, 0);
-
             _AddBuildingButtonListener(b, i);
             if (!Globals.BUILDING_DATA[i].CanBuy())
             {
