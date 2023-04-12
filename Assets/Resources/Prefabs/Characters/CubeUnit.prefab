@@ -183,7 +183,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d47e5ac8c005fd240afb8c58d9d08743, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectionCircle: {fileID: 0}
+  selectionCircle: {fileID: 6736107190224004623}
 --- !u!1 &6736107190224004623
 GameObject:
   m_ObjectHideFlags: 0
