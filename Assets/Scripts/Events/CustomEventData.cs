@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class CustomEventData
 {
-    public BuildingData buildingData;
+    public UnitData unitData;
 
-    public CustomEventData(BuildingData buildingData)
+    public CustomEventData(UnitData unitData)
     {
-        this.buildingData = buildingData;
+        this.unitData = unitData;
     }
 }

@@ -34,6 +34,7 @@ public class UIManager : MonoBehaviour
         // create buttons for each building type
         _buildingPlacer = GetComponent<BuildingPlacer>();
         _buildingButtons = new Dictionary<string, Button>();
+        if (Globals.BUILDING_DATA.Length == 0) Debug.Log("NO BUILDINGS!");
         for (int i = 0; i < Globals.BUILDING_DATA.Length; i++)
         {
             BuildingData data = Globals.BUILDING_DATA[i];
@@ -119,7 +120,7 @@ public class UIManager : MonoBehaviour
 
     private void _OnHoverBuildingButton(CustomEventData data)
     {
-        SetInfoPanel(data.buildingData);
+        SetInfoPanel(data.unitData);
         ShowInfoPanel(true);
     }
 
@@ -128,13 +129,13 @@ public class UIManager : MonoBehaviour
         ShowInfoPanel(false);
     }
 
-    public void SetInfoPanel(BuildingData data)
+    public void SetInfoPanel(UnitData data)
     {
         // update texts
-        if (data.Code != "")
-            _infoPanelTitleText.text = data.UnitName;
-        if (data.Description != "") 
-            _infoPanelDescriptionText.text = data.Description;
+        if (data.unitName != "")
+            _infoPanelTitleText.text = data.unitName;
+        if (data.description != "")
+            _infoPanelDescriptionText.text = data.description;
         
         // clear resource costs and reinstantiate new ones
         foreach (Transform child in _infoPanelResourcesCostParent)
