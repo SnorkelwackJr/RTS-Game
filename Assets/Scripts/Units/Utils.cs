@@ -64,4 +64,35 @@ public static class Utils
         return bounds;
     }
 
+    public static Rect GetBoundingBoxOnScreen(Bounds bounds, Camera camera)
+    {
+        Vector3 center = bounds.center;
+        Vector3 size = bounds.size;
+        Vector3[] vertices = new Vector3[] {
+            center + Vector3.right * size.x / 2f + Vector3.up * size.y / 2f + Vector3.forward * size.z / 2f,
+            center + Vector3.right * size.x / 2f + Vector3.up * size.y / 2f - Vector3.forward * size.z / 2f,
+            center + Vector3.right * size.x / 2f - Vector3.up * size.y / 2f + Vector3.forward * size.z / 2f,
+            center + Vector3.right * size.x / 2f - Vector3.up * size.y / 2f - Vector3.forward * size.z / 2f,
+            center - Vector3.right * size.x / 2f + Vector3.up * size.y / 2f + Vector3.forward * size.z / 2f,
+            center - Vector3.right * size.x / 2f + Vector3.up * size.y / 2f - Vector3.forward * size.z / 2f,
+            center - Vector3.right * size.x / 2f - Vector3.up * size.y / 2f + Vector3.forward * size.z / 2f,
+            center - Vector3.right * size.x / 2f - Vector3.up * size.y / 2f - Vector3.forward * size.z / 2f,
+        };
+        Rect retVal = Rect.MinMaxRect(float.MaxValue, float.MaxValue, float.MinValue, float.MinValue);
+
+        for (int i = 0; i < vertices.Length; i++)
+        {
+            Vector3 v = camera.WorldToScreenPoint(vertices[i]);
+            if (v.x < retVal.xMin)
+                retVal.xMin = v.x;
+            if (v.y < retVal.yMin)
+                retVal.yMin = v.y;
+            if (v.x > retVal.xMax)
+                retVal.xMax = v.x;
+            if (v.y > retVal.yMax)
+                retVal.yMax = v.y;
+        }
+
+        return retVal;
+    }
 }

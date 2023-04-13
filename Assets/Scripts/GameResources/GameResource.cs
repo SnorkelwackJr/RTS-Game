@@ -20,5 +20,18 @@ public class GameResource
     }
 
     public string Name { get => _name; }
-    public int Amount { get => _currentAmount; }
+    public int Amount { get => _currentAmount; set { _currentAmount = value; } }
+}
+
+[System.Serializable]
+public class ResourceValue
+{
+    public string code = "";
+    public int amount = 0;
+
+    public ResourceValue(string code, int amount)
+    {
+        this.code = code;
+        this.amount = amount;
+    }
 }

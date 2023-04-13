@@ -18,4 +18,10 @@ public class BuildingData : ScriptableObject
                 return false;
         return true;
     }
+
+    public List<ResourceValue> Cost { get { return cost; } }
+    public string Code { get { return code; } }
+    public string UnitName { get { return unitName; } }
+    public string Description { get { return description; } }
+    public int Healthpoints { get { return healthpoints; } }
 }
