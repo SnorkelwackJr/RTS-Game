@@ -25,7 +25,7 @@ public class Healthbar : MonoBehaviour
     public void SetPosition()
     {
         if (!_target) return;
-        _pos = Camera.main.WorldToScreenPoint(_target.position);
+        _pos = Camera.main.WorldToScreenPoint(_target.position); //FIXME: THE PROBLEM IS HERE
         _pos.y += _yOffset;
         rectTransform.anchoredPosition = _pos;
         _lastTargetPosition = _target.position;

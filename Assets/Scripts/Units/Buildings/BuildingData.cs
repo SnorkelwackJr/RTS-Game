@@ -6,7 +6,7 @@ public class BuildingData : ScriptableObject
 {
     public string code;
     public string unitName;
-    public string description; //TODO add getters?
+    public string description;
     public int healthpoints;
     public GameObject prefab;
     public List<ResourceValue> cost;

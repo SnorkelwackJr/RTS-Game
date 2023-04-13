@@ -6,15 +6,15 @@ public class UIManager : MonoBehaviour
 {
     private BuildingPlacer _buildingPlacer;
     private Dictionary<string, Button> _buildingButtons;
-    private Text _infoPanelTitleText;
-    private Text _infoPanelDescriptionText;
-    private Transform _infoPanelResourcesCostParent;
-
     public Transform buildingMenu;
     public GameObject buildingButtonPrefab;
     public Transform resourcesUIParent;
     public GameObject gameResourceDisplayPrefab;
+    public GameObject gameResourceCostPrefab;
     public GameObject infoPanel;
+    private TMPro.TextMeshProUGUI _infoPanelTitleText;
+    private TMPro.TextMeshProUGUI _infoPanelDescriptionText;
+    private Transform _infoPanelResourcesCostParent;
 
     private Dictionary<string, TMPro.TextMeshProUGUI> _resourceTexts;
 
@@ -48,12 +48,14 @@ public class UIManager : MonoBehaviour
             {
                 b.interactable = false;
             }
+
+            button.GetComponent<BuildingButton>().Initialize(Globals.BUILDING_DATA[i]);
         }
 
         Transform infoPanelTransform = infoPanel.transform;
-        _infoPanelTitleText = infoPanelTransform.Find("Content/Title").GetComponent<Text>();
-        _infoPanelDescriptionText = infoPanelTransform.Find("Content/Descriptoin").GetComponent<Text>();
-        _infoPanelResourcesCostParent = infoPanelTransform.Find("Content/ResourcesCost");
+        _infoPanelTitleText = infoPanelTransform.Find("Content/Title").GetComponent<TMPro.TextMeshProUGUI>();
+        _infoPanelDescriptionText = infoPanelTransform.Find("Content/Description").GetComponent<TMPro.TextMeshProUGUI>();
+        _infoPanelResourcesCostParent = infoPanelTransform.Find("Content/GameResourceCost");
         ShowInfoPanel(false);
     }
 
@@ -128,31 +130,34 @@ public class UIManager : MonoBehaviour
 
     public void SetInfoPanel(BuildingData data)
     {
+        // update texts
         if (data.Code != "")
-        {
-            _infoPanelTitleText.text = data.Code;
-        }
-        if (data.Description != "")
-        {
+            _infoPanelTitleText.text = data.UnitName;
+        if (data.Description != "") 
             _infoPanelDescriptionText.text = data.Description;
-        }
-
+        
+        // clear resource costs and reinstantiate new ones
         foreach (Transform child in _infoPanelResourcesCostParent)
         {
             Destroy(child.gameObject);
         }
-
-        if (data.Cost.Amount > 0)
+            
+        if (data.Cost.Count > 0)
         {
-            GameObject g;
-            Transform t;
-
-            foreach (ResourceValue resource in data.cost)
+            GameObject g; Transform t;
+            foreach (ResourceValue resource in data.Cost)
             {
-                g = GameObject.Instantiate(gameResourceDisplayPrefab, _infoPanelResourcesCostParent);
+                g = GameObject.Instantiate(gameResourceCostPrefab, _infoPanelResourcesCostParent);
                 t = g.transform;
-                t.Find("Text").GetComponent<Text>().text = resource.amount.ToString();
-                t.Find("Icon").GetComponent<Image>().sprite = Resources.Load<Sprite>($"Textures/GameResources/{resource.code}");
+                t.Find("Text").GetComponent<TMPro.TextMeshProUGUI>().text = resource.amount.ToString();
+                t.Find("Icon").GetComponent<Image>().sprite = Resources.Load<Sprite>(
+                    $"Textures/GameResources/{resource.code}");
+
+                // check to see if resource requirement is not
+                // currently met - in that case, turn the text into the "invalid"
+                // color
+                if (Globals.GAME_RESOURCES[resource.code].Amount < resource.amount)
+                    t.Find("Text").GetComponent<TMPro.TextMeshProUGUI>().color = new Color32(200, 0, 0, 255);
             }
         }
     }
