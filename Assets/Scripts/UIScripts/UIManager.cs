@@ -20,6 +20,13 @@ public class UIManager : MonoBehaviour
     public Transform selectedUnitsListParent;
     public GameObject selectedUnitDisplayPrefab;
     public Transform selectionGroupsParent;
+    public GameObject selectedUnitMenu;
+    private RectTransform _selectedUnitContentRectTransform;
+    private RectTransform _selectedUnitButtonsRectTransform;
+    private TMPro.TextMeshProUGUI _selectedUnitTitleText;
+    private TMPro.TextMeshProUGUI _selectedUnitLevelText;
+    private Transform _selectedUnitResourcesProductionParent;
+    private Transform _selectedUnitActionButtonsParent;
 
     private void Awake()
     {
@@ -37,7 +44,6 @@ public class UIManager : MonoBehaviour
         // create buttons for each building type
         _buildingPlacer = GetComponent<BuildingPlacer>();
         _buildingButtons = new Dictionary<string, Button>();
-        if (Globals.BUILDING_DATA.Length == 0) Debug.Log("NO BUILDINGS!");
         for (int i = 0; i < Globals.BUILDING_DATA.Length; i++)
         {
             BuildingData data = Globals.BUILDING_DATA[i];
@@ -64,7 +70,27 @@ public class UIManager : MonoBehaviour
 
         // hide all selection group buttons
         for (int i = 1; i <= 9; i++)
+        {
             ToggleSelectionGroupButton(i, false);
+        }
+
+        Transform selectedUnitMenuTransform = selectedUnitMenu.transform;
+        _selectedUnitContentRectTransform = selectedUnitMenuTransform
+            .Find("Content").GetComponent<RectTransform>();
+        _selectedUnitButtonsRectTransform = selectedUnitMenuTransform
+            .Find("Buttons").GetComponent<RectTransform>();
+        _selectedUnitTitleText = selectedUnitMenuTransform
+            .Find("Content/Title").GetComponent<TMPro.TextMeshProUGUI>();
+        _selectedUnitTitleText = selectedUnitMenuTransform
+            .Find("Content/Title").GetComponent<TMPro.TextMeshProUGUI>();
+        _selectedUnitLevelText = selectedUnitMenuTransform
+            .Find("Content/Level").GetComponent<TMPro.TextMeshProUGUI>();
+        _selectedUnitResourcesProductionParent = selectedUnitMenuTransform
+            .Find("Content/ResourcesProduction");
+        _selectedUnitActionButtonsParent = selectedUnitMenuTransform
+            .Find("Buttons/SpecificActions");
+        
+        _ShowSelectedUnitMenu(false);
     }
 
     private void OnEnable()
@@ -182,11 +208,17 @@ public class UIManager : MonoBehaviour
     private void _OnSelectUnit(CustomEventData data)
     {
         _AddSelectedUnitToUIList(data.unit);
+        _SetSelectedUnitMenu(data.unit);
+        _ShowSelectedUnitMenu(true);
     }
 
     private void _OnDeselectUnit(CustomEventData data)
     {
         _RemoveSelectedUnitFromUIList(data.unit.Code);
+        if (Globals.SELECTED_UNITS.Count == 0)
+            _ShowSelectedUnitMenu(false);
+        //else
+            //_SetSelectedUnitMenu(Globals.SELECTED_UNITS[Globals.SELECTED_UNITS.Count - 1].Unit);
     }
 
     public void _AddSelectedUnitToUIList(Unit unit)
@@ -228,5 +260,39 @@ public class UIManager : MonoBehaviour
     public void ToggleSelectionGroupButton(int groupIndex, bool on)
     {
         selectionGroupsParent.Find(groupIndex.ToString()).gameObject.SetActive(on);
+    }
+
+    private void _SetSelectedUnitMenu(Unit unit)
+    {
+        // adapt content panel heights to match info to display
+        int contentHeight = 60 + unit.Production.Count * 16;
+        _selectedUnitContentRectTransform.sizeDelta = new Vector2(64, contentHeight);
+        _selectedUnitButtonsRectTransform.anchoredPosition = new Vector2(0, -contentHeight - 20);
+        _selectedUnitButtonsRectTransform.sizeDelta = new Vector2(70, Screen.height - contentHeight - 20);
+        // update texts
+        _selectedUnitTitleText.text = unit.Data.unitName;
+        _selectedUnitLevelText.text = $"Level {unit.Level}";
+        // clear resource production and reinstantiate new one
+        foreach (Transform child in _selectedUnitResourcesProductionParent)
+        {
+            Destroy(child.gameObject);
+        }
+        if (unit.Production.Count > 0)
+        {
+            GameObject g; Transform t;
+            foreach (ResourceValue resource in unit.Production)
+            {
+                g = GameObject.Instantiate(
+                    gameResourceCostPrefab, _selectedUnitResourcesProductionParent);
+                t = g.transform;
+                t.Find("Text").GetComponent<TMPro.TextMeshProUGUI>().text = $"+{resource.amount}";
+                t.Find("Icon").GetComponent<Image>().sprite = Resources.Load<Sprite>($"Textures/GameResources/{resource.code}");
+            }
+        }
+    }
+
+    private void _ShowSelectedUnitMenu(bool show)
+    {
+        selectedUnitMenu.SetActive(show);
     }
 }
