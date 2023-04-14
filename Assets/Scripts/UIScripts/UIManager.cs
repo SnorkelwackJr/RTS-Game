@@ -17,6 +17,9 @@ public class UIManager : MonoBehaviour
     private Transform _infoPanelResourcesCostParent;
 
     private Dictionary<string, TMPro.TextMeshProUGUI> _resourceTexts;
+    public Transform selectedUnitsListParent;
+    public GameObject selectedUnitDisplayPrefab;
+    public Transform selectionGroupsParent;
 
     private void Awake()
     {
@@ -58,6 +61,10 @@ public class UIManager : MonoBehaviour
         _infoPanelDescriptionText = infoPanelTransform.Find("Content/Description").GetComponent<TMPro.TextMeshProUGUI>();
         _infoPanelResourcesCostParent = infoPanelTransform.Find("Content/GameResourceCost");
         ShowInfoPanel(false);
+
+        // hide all selection group buttons
+        for (int i = 1; i <= 9; i++)
+            ToggleSelectionGroupButton(i, false);
     }
 
     private void OnEnable()
@@ -66,6 +73,8 @@ public class UIManager : MonoBehaviour
         EventManager.AddListener("CheckBuildingButtons", _OnCheckBuildingButtons);
         EventManager.AddTypedListener("HoverBuildingButton", _OnHoverBuildingButton);
         EventManager.AddListener("UnhoverBuildingButton", _OnUnhoverBuildingButton);
+        EventManager.AddTypedListener("SelectUnit", _OnSelectUnit);
+        EventManager.AddTypedListener("DeselectUnit", _OnDeselectUnit);
     }
 
     private void OnDisable()
@@ -74,6 +83,8 @@ public class UIManager : MonoBehaviour
         EventManager.RemoveListener("CheckBuildingButtons", _OnCheckBuildingButtons);
         EventManager.RemoveTypedListener("HoverBuildingButton", _OnHoverBuildingButton);
         EventManager.RemoveListener("UnhoverBuildingButton", _OnUnhoverBuildingButton);
+        EventManager.RemoveTypedListener("SelectUnit", _OnSelectUnit);
+        EventManager.RemoveTypedListener("DeselectUnit", _OnDeselectUnit);
     }
 
     private void _AddBuildingButtonListener(Button b, int i)
@@ -166,5 +177,56 @@ public class UIManager : MonoBehaviour
     public void ShowInfoPanel(bool show)
     {
         infoPanel.SetActive(show);
+    }
+
+    private void _OnSelectUnit(CustomEventData data)
+    {
+        _AddSelectedUnitToUIList(data.unit);
+    }
+
+    private void _OnDeselectUnit(CustomEventData data)
+    {
+        _RemoveSelectedUnitFromUIList(data.unit.Code);
+    }
+
+    public void _AddSelectedUnitToUIList(Unit unit)
+    {
+        // if there is another unit of the same type already selected,
+        // increase the counter
+        Transform alreadyInstantiatedChild = selectedUnitsListParent.Find(unit.Code);
+        if (alreadyInstantiatedChild != null)
+        {
+            TMPro.TextMeshProUGUI t = alreadyInstantiatedChild.Find("Count").GetComponent<TMPro.TextMeshProUGUI>();
+            int count = int.Parse(t.text);
+            t.text = (count + 1).ToString();
+        }
+        // else create a brand new counter initialized with a count of 1
+        else
+        {
+            GameObject g = GameObject.Instantiate(
+                selectedUnitDisplayPrefab, selectedUnitsListParent);
+            g.name = unit.Code;
+            Transform t = g.transform;
+            t.Find("Count").GetComponent<TMPro.TextMeshProUGUI>().text = "1";
+            t.Find("Name").GetComponent<TMPro.TextMeshProUGUI>().text = unit.Data.unitName;
+        }
+    }
+
+    public void _RemoveSelectedUnitFromUIList(string code)
+    {
+        Transform listItem = selectedUnitsListParent.Find(code);
+        if (listItem == null) return;
+        TMPro.TextMeshProUGUI t = listItem.Find("Count").GetComponent<TMPro.TextMeshProUGUI>();
+        int count = int.Parse(t.text);
+        count -= 1;
+        if (count == 0)
+            DestroyImmediate(listItem.gameObject);
+        else
+            t.text = count.ToString();
+    }
+
+    public void ToggleSelectionGroupButton(int groupIndex, bool on)
+    {
+        selectionGroupsParent.Find(groupIndex.ToString()).gameObject.SetActive(on);
     }
 }

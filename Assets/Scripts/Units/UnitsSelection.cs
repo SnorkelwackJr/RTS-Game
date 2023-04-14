@@ -3,24 +3,30 @@ using UnityEngine;
 
 public class UnitsSelection : MonoBehaviour
 {
+    public UIManager uiManager;
     private bool _isDraggingMouseBox = false;
     private Vector3 _dragStartPosition;
     Ray _ray;
     RaycastHit _raycastHit;
+    private Dictionary<int, List<UnitManager>> _selectionGroups = new Dictionary<int, List<UnitManager>>();
+    private int numLastUnits = 0;
 
     private void Update()
     {
+        // start dragging
         if (Input.GetMouseButtonDown(0))
         {
             _isDraggingMouseBox = true;
             _dragStartPosition = Input.mousePosition;
         }
 
+        // stop dragging
         if (Input.GetMouseButtonUp(0))
         {
             _isDraggingMouseBox = false;
         }
 
+        // while dragging
         if (_isDraggingMouseBox && _dragStartPosition != Input.mousePosition)
         {
             _SelectUnitsInDraggingBox();
@@ -44,6 +50,21 @@ public class UnitsSelection : MonoBehaviour
                 }
             }
         }
+
+        // manage selection groups with alphanumeric keys
+        if (Input.anyKeyDown)
+        {
+            int alphaKey = Utils.GetAlphaKeyValue(Input.inputString);
+            if (alphaKey != -1)
+            {
+                if (Input.GetKey(KeyCode.LeftControl) ||
+                    Input.GetKey(KeyCode.RightControl) ||
+                    Input.GetKey(KeyCode.F)) //FIXME when Unity gits gud
+                    _CreateSelectionGroup(alphaKey);
+                else
+                    _ReselectGroup(alphaKey);
+            }
+        }
     }
 
     private void _SelectUnitsInDraggingBox()
@@ -60,9 +81,9 @@ public class UnitsSelection : MonoBehaviour
             inBounds = selectionBounds.Contains(
                 Camera.main.WorldToViewportPoint(unit.transform.position)
             );
-            if (inBounds)
+            if (inBounds && !unit.GetComponent<UnitManager>().selectionCircle.activeSelf)
                 unit.GetComponent<UnitManager>().Select();
-            else
+            else if (!_isDraggingMouseBox)
                 unit.GetComponent<UnitManager>().Deselect();
         }
     }
@@ -85,6 +106,40 @@ public class UnitsSelection : MonoBehaviour
         {
             um.Deselect();
         }
+    }
+
+    public void SelectUnitsGroup(int groupIndex)
+    {
+        _ReselectGroup(groupIndex);
+    }
+
+    private void _CreateSelectionGroup(int groupIndex)
+    {
+        // check there are units currently selected
+        if (Globals.SELECTED_UNITS.Count == 0)
+        {
+            if (_selectionGroups.ContainsKey(groupIndex))
+                _RemoveSelectionGroup(groupIndex);
+            return;
+        }
+        List<UnitManager> groupUnits = new List<UnitManager>(Globals.SELECTED_UNITS);
+        _selectionGroups[groupIndex] = groupUnits;
+        uiManager.ToggleSelectionGroupButton(groupIndex, true);
+    }
+
+    private void _RemoveSelectionGroup(int groupIndex)
+    {
+        _selectionGroups.Remove(groupIndex);
+        uiManager.ToggleSelectionGroupButton(groupIndex, false);
+    }
+
+    private void _ReselectGroup(int groupIndex)
+    {
+        // check the group actually is defined
+        if (!_selectionGroups.ContainsKey(groupIndex)) return;
+        _DeselectAllUnits();
+        foreach (UnitManager um in _selectionGroups[groupIndex])
+            um.Select();
     }
 
 }

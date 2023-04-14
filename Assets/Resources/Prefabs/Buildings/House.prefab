@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1186737022236708594}
   - component: {fileID: 918867366252276951}
   - component: {fileID: 6642807889081507023}
-  - component: {fileID: 843352540659272855}
+  - component: {fileID: 2639651166064897858}
   m_Layer: 0
   m_Name: House
   m_TagString: Unit
@@ -117,7 +117,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &843352540659272855
+--- !u!114 &2639651166064897858
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

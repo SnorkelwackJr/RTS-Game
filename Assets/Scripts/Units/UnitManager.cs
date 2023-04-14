@@ -24,10 +24,7 @@ public class UnitManager : MonoBehaviour
 
     private void OnMouseDown()
     {
-       if (IsActive())
-       {
-            Select(true, Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift));
-       }
+       Select(true, Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift));
     }
 
     protected virtual bool IsActive()
@@ -35,23 +32,7 @@ public class UnitManager : MonoBehaviour
         return true;
     }
 
-    private void _SelectUtil()
-    {
-        Globals.SELECTED_UNITS.Add(this);
-        selectionCircle.SetActive(true);
-        if(_healthbar == null)
-        {
-            _healthbar = GameObject.Instantiate(Resources.Load("Prefabs/UI/Healthbar")) as GameObject;
-            _healthbar.transform.SetParent(_canvas);
-            Healthbar h = _healthbar.GetComponent<Healthbar>();
-            Rect boundingBox = Utils.GetBoundingBoxOnScreen(transform.Find("Mesh").GetComponent<Renderer>().bounds, Camera.main);
-            h.Initialize(transform, boundingBox.height);
-            h.SetPosition();
-        }
-    }
-
     public void Select() { Select(false, false); }
-    // Implement Shift-click drag
     public void Select(bool singleClick, bool holdingShift)
     {
         // basic case: using the selection box
@@ -84,5 +65,24 @@ public class UnitManager : MonoBehaviour
         selectionCircle.SetActive(false);
         Destroy(_healthbar);
         _healthbar = null;
+
+        EventManager.TriggerTypedEvent("DeselectUnit", new CustomEventData(Unit));
+    }
+
+    private void _SelectUtil()
+    {
+        Globals.SELECTED_UNITS.Add(this);
+        selectionCircle.SetActive(true);
+        /*if(_healthbar == null)
+        {
+            _healthbar = GameObject.Instantiate(Resources.Load("Prefabs/UI/Healthbar")) as GameObject;
+            _healthbar.transform.SetParent(_canvas);
+            Healthbar h = _healthbar.GetComponent<Healthbar>();
+            Rect boundingBox = Utils.GetBoundingBoxOnScreen(transform.Find("Mesh").GetComponent<Renderer>().bounds, Camera.main);
+            h.Initialize(transform, boundingBox.height);
+            h.SetPosition();
+        }*/
+
+        EventManager.TriggerTypedEvent("SelectUnit", new CustomEventData(Unit));
     }
 }
