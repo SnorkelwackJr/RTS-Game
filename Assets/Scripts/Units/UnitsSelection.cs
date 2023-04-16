@@ -1,3 +1,4 @@
+using UnityEngine.EventSystems;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,10 +10,11 @@ public class UnitsSelection : MonoBehaviour
     Ray _ray;
     RaycastHit _raycastHit;
     private Dictionary<int, List<UnitManager>> _selectionGroups = new Dictionary<int, List<UnitManager>>();
-    private int numLastUnits = 0;
 
     private void Update()
     {
+        if (EventSystem.current.IsPointerOverGameObject()) return;
+
         // start dragging
         if (Input.GetMouseButtonDown(0))
         {

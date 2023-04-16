@@ -27,6 +27,8 @@ public class UIManager : MonoBehaviour
     private TMPro.TextMeshProUGUI _selectedUnitLevelText;
     private Transform _selectedUnitResourcesProductionParent;
     private Transform _selectedUnitActionButtonsParent;
+    private Unit _selectedUnit;
+    public GameObject unitSkillButtonPrefab;
 
     private void Awake()
     {
@@ -264,6 +266,8 @@ public class UIManager : MonoBehaviour
 
     private void _SetSelectedUnitMenu(Unit unit)
     {
+        _selectedUnit = unit;
+
         // adapt content panel heights to match info to display
         int contentHeight = 60 + unit.Production.Count * 16;
         _selectedUnitContentRectTransform.sizeDelta = new Vector2(64, contentHeight);
@@ -289,10 +293,34 @@ public class UIManager : MonoBehaviour
                 t.Find("Icon").GetComponent<Image>().sprite = Resources.Load<Sprite>($"Textures/GameResources/{resource.code}");
             }
         }
+
+        // clear skills and reinstantiate new ones
+        foreach (Transform child in _selectedUnitActionButtonsParent)
+            Destroy(child.gameObject);
+        if (unit.SkillManagers.Count > 0)
+        {
+            GameObject g; Transform t; Button b;
+            for (int i = 0; i < unit.SkillManagers.Count; i++)
+            {
+                g = GameObject.Instantiate(
+                    unitSkillButtonPrefab, _selectedUnitActionButtonsParent);
+                t = g.transform;
+                b = g.GetComponent<Button>();
+                unit.SkillManagers[i].SetButton(b);
+                t.Find("Text").GetComponent<TMPro.TextMeshProUGUI>().text =
+                    unit.SkillManagers[i].skill.skillName;
+                _AddUnitSkillButtonListener(b, i);
+            }
+        }
     }
 
     private void _ShowSelectedUnitMenu(bool show)
     {
         selectedUnitMenu.SetActive(show);
+    }
+
+    private void _AddUnitSkillButtonListener(Button b, int i)
+    {
+        b.onClick.AddListener(() => _selectedUnit.TriggerSkill(i));
     }
 }

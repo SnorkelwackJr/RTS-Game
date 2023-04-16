@@ -20,3 +20,5 @@ MonoBehaviour:
   cost:
   - code: gold
     amount: 150
+  skills:
+  - {fileID: 11400000, guid: cda60cc0c09b20248a60ffcc4b95e3b9, type: 2}

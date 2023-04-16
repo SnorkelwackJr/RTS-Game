@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1582024723439020076
 Transform:
   m_ObjectHideFlags: 0
@@ -43,7 +43,7 @@ Halo:
   m_Color:
     serializedVersion: 2
     rgba: 4278241023
-  m_Size: 5
+  m_Size: 1
 --- !u!1 &3725388289067207727
 GameObject:
   m_ObjectHideFlags: 0
