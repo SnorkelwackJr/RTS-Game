@@ -66,7 +66,7 @@ public class UnitManager : MonoBehaviour
         Destroy(_healthbar);
         _healthbar = null;
 
-        EventManager.TriggerTypedEvent("DeselectUnit", new CustomEventData(Unit));
+        EventManager.TriggerEvent("DeselectUnit", Unit);
     }
 
     private void _SelectUtil()
@@ -83,6 +83,6 @@ public class UnitManager : MonoBehaviour
             h.SetPosition();
         }*/
 
-        EventManager.TriggerTypedEvent("SelectUnit", new CustomEventData(Unit));
+        EventManager.TriggerEvent("SelectUnit", Unit);
     }
 }

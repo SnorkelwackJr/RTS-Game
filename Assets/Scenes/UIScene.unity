@@ -2888,6 +2888,7 @@ MonoBehaviour:
   selectionGroupsParent: {fileID: 331817584}
   selectedUnitMenu: {fileID: 633205926}
   unitSkillButtonPrefab: {fileID: 7350937840983983401, guid: 7bf29eb38648dc04ca42984a1744c9bb, type: 3}
+  buildingMenuObject: {fileID: 2126734512}
 --- !u!4 &952817921
 Transform:
   m_ObjectHideFlags: 0
