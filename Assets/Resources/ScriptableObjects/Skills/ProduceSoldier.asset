@@ -17,6 +17,6 @@ MonoBehaviour:
   description: Produce a soldier.
   type: 0
   unitReference: {fileID: 11400000, guid: eeb5f67b25ce05d449cc069b7e02b757, type: 2}
-  castTime: 1
+  castTime: 0
   cooldown: 1
   sprite: {fileID: 0}

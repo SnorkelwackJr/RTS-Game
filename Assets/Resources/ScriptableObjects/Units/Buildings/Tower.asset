@@ -20,3 +20,4 @@ MonoBehaviour:
   cost:
   - code: wood
     amount: 200
+  skills: []

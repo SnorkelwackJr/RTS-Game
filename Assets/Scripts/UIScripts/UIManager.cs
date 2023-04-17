@@ -4,23 +4,25 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    private BuildingPlacer _buildingPlacer;
-    private Dictionary<string, Button> _buildingButtons;
     public Transform buildingMenu;
     public GameObject buildingButtonPrefab;
     public Transform resourcesUIParent;
     public GameObject gameResourceDisplayPrefab;
     public GameObject gameResourceCostPrefab;
     public GameObject infoPanel;
-    private TMPro.TextMeshProUGUI _infoPanelTitleText;
-    private TMPro.TextMeshProUGUI _infoPanelDescriptionText;
-    private Transform _infoPanelResourcesCostParent;
-
-    private Dictionary<string, TMPro.TextMeshProUGUI> _resourceTexts;
     public Transform selectedUnitsListParent;
     public GameObject selectedUnitDisplayPrefab;
     public Transform selectionGroupsParent;
     public GameObject selectedUnitMenu;
+    public GameObject unitSkillButtonPrefab;
+    public GameObject buildingMenuObject;
+
+    private BuildingPlacer _buildingPlacer;
+    private Dictionary<string, Button> _buildingButtons;
+    private TMPro.TextMeshProUGUI _infoPanelTitleText;
+    private TMPro.TextMeshProUGUI _infoPanelDescriptionText;
+    private Transform _infoPanelResourcesCostParent;
+    private Dictionary<string, TMPro.TextMeshProUGUI> _resourceTexts;
     private RectTransform _selectedUnitContentRectTransform;
     private RectTransform _selectedUnitButtonsRectTransform;
     private TMPro.TextMeshProUGUI _selectedUnitTitleText;
@@ -28,7 +30,6 @@ public class UIManager : MonoBehaviour
     private Transform _selectedUnitResourcesProductionParent;
     private Transform _selectedUnitActionButtonsParent;
     private Unit _selectedUnit;
-    public GameObject unitSkillButtonPrefab;
 
     private void Awake()
     {
@@ -317,6 +318,7 @@ public class UIManager : MonoBehaviour
     private void _ShowSelectedUnitMenu(bool show)
     {
         selectedUnitMenu.SetActive(show);
+        buildingMenuObject.SetActive(!show);
     }
 
     private void _AddUnitSkillButtonListener(Button b, int i)
