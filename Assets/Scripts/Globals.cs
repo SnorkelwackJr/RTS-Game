@@ -6,6 +6,7 @@ public class Globals
     public static List<UnitManager> SELECTED_UNITS = new List<UnitManager>();
 
     public static BuildingData[] BUILDING_DATA;
+    public static Building CURRENT_PLACED_BUILDING = null;
 
     public static Dictionary<string, GameResource> GAME_RESOURCES =
         new Dictionary<string, GameResource>()

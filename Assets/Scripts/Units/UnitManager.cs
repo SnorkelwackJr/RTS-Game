@@ -42,6 +42,12 @@ public class UnitManager : MonoBehaviour
             return;
         }
 
+        // building placement case
+        if (Globals.CURRENT_PLACED_BUILDING != null)
+        {
+            return;
+        }
+
         // single click: check for shift key
         if (!holdingShift)
         {

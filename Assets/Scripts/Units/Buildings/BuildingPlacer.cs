@@ -12,6 +12,7 @@ public class BuildingPlacer : MonoBehaviour
     {
         if (_placedBuilding != null)
         {
+            Globals.CURRENT_PLACED_BUILDING = _placedBuilding;
             if (Input.GetKeyUp(KeyCode.Escape))
             {
                 _CancelPlacedBuilding();
@@ -75,6 +76,7 @@ public class BuildingPlacer : MonoBehaviour
         else
         {
             _placedBuilding = null;
+            Globals.CURRENT_PLACED_BUILDING = null;
         }
         EventManager.TriggerEvent("UpdateResourceTexts");
         EventManager.TriggerEvent("CheckBuildingButtons");
@@ -86,5 +88,6 @@ public class BuildingPlacer : MonoBehaviour
         // destroy the "phantom" building
         Destroy(_placedBuilding.Transform.gameObject);
         _placedBuilding = null;
+        Globals.CURRENT_PLACED_BUILDING = null;
     }
 }
