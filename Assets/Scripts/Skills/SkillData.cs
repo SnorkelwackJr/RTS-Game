@@ -1,3 +1,4 @@
+using UnityEngine.AI;
 using UnityEngine;
 
 public enum SkillType
@@ -25,13 +26,13 @@ public class SkillData : ScriptableObject
                 {
                     BoxCollider coll = source.GetComponent<BoxCollider>();
                     Vector3 instantiationPosition = new Vector3(
-                        source.transform.position.x - coll.size.x * 0.7f,
+                        source.transform.position.x - (coll.size.x * 8f),
                         source.transform.position.y,
-                        source.transform.position.z - coll.size.z * 0.7f
+                        source.transform.position.z
                     );
                     CharacterData d = (CharacterData) unitReference;
                     Character c = new Character(d);
-                    c.Transform.position = instantiationPosition;
+                    c.Transform.GetComponent<NavMeshAgent>().Warp(instantiationPosition);
                     c.Transform.GetComponent<CharacterManager>().Initialize(c);
                 }
                 break;
