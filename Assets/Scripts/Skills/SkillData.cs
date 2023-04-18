@@ -26,9 +26,9 @@ public class SkillData : ScriptableObject
                 {
                     BoxCollider coll = source.GetComponent<BoxCollider>();
                     Vector3 instantiationPosition = new Vector3(
-                        source.transform.position.x - (coll.size.x * 8f),
+                        source.transform.position.x,
                         source.transform.position.y,
-                        source.transform.position.z
+                        source.transform.position.z  - (coll.size.z * 8f)
                     );
                     CharacterData d = (CharacterData) unitReference;
                     Character c = new Character(d);
