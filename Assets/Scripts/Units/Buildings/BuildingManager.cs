@@ -3,6 +3,7 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider))]
 public class BuildingManager : UnitManager
 {
+    public AudioSource ambientSource;
     private Building _building = null;
     private int _nCollisions = 0;
 

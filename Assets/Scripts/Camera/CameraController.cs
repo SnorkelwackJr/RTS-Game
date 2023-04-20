@@ -12,6 +12,12 @@ public class CameraController : MonoBehaviour
 
     public Vector3 newPosition;
     public Vector3 newZoom;
+    public Transform groundTarget;
+
+    private void Awake()
+   {
+       groundTarget.position = Utils.MiddleOfScreenPointToWorld();
+   }
 
     // Start is called before the first frame update
     void Start()
@@ -25,6 +31,8 @@ public class CameraController : MonoBehaviour
     void Update()
     {
         HandleMovementInput();
+        Vector3 middle = Utils.MiddleOfScreenPointToWorld();
+        groundTarget.position = middle;
     }
 
     void HandleMovementInput()

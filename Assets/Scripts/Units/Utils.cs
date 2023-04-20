@@ -2,6 +2,16 @@ using UnityEngine;
 
 public static class Utils
 {
+    static Camera _mainCamera;
+    public static Camera MainCamera
+    {
+        get
+        {
+            if (_mainCamera == null)
+                _mainCamera = Camera.main;
+            return _mainCamera;
+        }
+    }
 
     static Texture2D _whiteTexture;
     public static Texture2D WhiteTexture
@@ -18,6 +28,9 @@ public static class Utils
             return _whiteTexture;
         }
     }
+
+    static Ray _ray;
+    static RaycastHit _hit;
 
     public static void DrawScreenRect(Rect rect, Color color)
     {
@@ -108,5 +121,19 @@ public static class Utils
         if (inputString == "8" || inputString == "!") return 8;
         if (inputString == "9" || inputString == "ç") return 9;
         return -1;
+    }
+
+    public static Vector3 MiddleOfScreenPointToWorld()
+        { return MiddleOfScreenPointToWorld(MainCamera); }
+    public static Vector3 MiddleOfScreenPointToWorld(Camera cam)
+    {
+        _ray = cam.ScreenPointToRay(0.5f * new Vector2(Screen.width, Screen.height));
+        if (Physics.Raycast(
+                _ray,
+                out _hit,
+                1000f,
+                Globals.TERRAIN_LAYER_MASK
+            )) return _hit.point;
+        return Vector3.zero;
     }
 }
