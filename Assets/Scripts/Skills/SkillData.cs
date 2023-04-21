@@ -17,6 +17,8 @@ public class SkillData : ScriptableObject
     public float castTime;
     public float cooldown;
     public Sprite sprite;
+    public AudioClip onStartSound; // runs when player presses skill button
+    public AudioClip onEndSound; // runs after cast time has elapsed
 
     public void Trigger(GameObject source, GameObject target = null)
     {

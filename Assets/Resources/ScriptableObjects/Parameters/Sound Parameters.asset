@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 264d94485d851c2428e6aa7ef2946fb1, type: 3}
   m_Name: Sound Parameters
   m_EditorClassIdentifier: 
-  onStationCaptureSound: {fileID: 8300000, guid: d9e10fa9dd2ca5f4e996e1b832f8ff04, type: 3}
-  onStationLostSound: {fileID: 8300000, guid: 0d54b5c41cc4ee644b4510edf7368882, type: 3}
+  onStationCaptureSound: {fileID: 0}
+  onStationLostSound: {fileID: 0}
+  onBuildingPlacedSound: {fileID: 8300000, guid: 5ca00c140a5d73f4986584f0041a7b30, type: 3}

@@ -8,11 +8,19 @@ public class SkillManager : MonoBehaviour
     GameObject _source;
     Button _button;
     bool _ready;
+    AudioSource _sourceContextualSource;
 
     public void Initialize(SkillData skill, GameObject source)
     {
         this.skill = skill;
         _source = source;
+
+        // try to get the audio source from the source unit
+        UnitManager um = source.GetComponent<UnitManager>();
+        if (um != null)
+        {
+            _sourceContextualSource = um.contextualSource;
+        }
     }
 
     public void Trigger(GameObject target = null)
@@ -29,7 +37,15 @@ public class SkillManager : MonoBehaviour
 
     private IEnumerator _WrappedTrigger(GameObject target)
     {
+        if (_sourceContextualSource != null && skill.onStartSound)
+        {
+            _sourceContextualSource.PlayOneShot(skill.onStartSound);
+        }
         yield return new WaitForSeconds(skill.castTime);
+        if (_sourceContextualSource != null && skill.onEndSound)
+        {
+            _sourceContextualSource.PlayOneShot(skill.onEndSound);
+        }
         skill.Trigger(_source, target);
         _SetReady(false);
         yield return new WaitForSeconds(skill.cooldown);

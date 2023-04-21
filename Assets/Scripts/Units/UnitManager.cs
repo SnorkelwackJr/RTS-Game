@@ -5,6 +5,7 @@ using UnityEngine;
 public class UnitManager : MonoBehaviour
 {
     public GameObject selectionCircle;
+    public AudioSource contextualSource;
 
     private Transform _canvas;
     private GameObject _healthbar;
@@ -90,5 +91,8 @@ public class UnitManager : MonoBehaviour
         }*/
 
         EventManager.TriggerEvent("SelectUnit", Unit);
+
+        // play sound
+        contextualSource.PlayOneShot(Unit.Data.onSelectSound);
     }
 }

@@ -80,7 +80,7 @@ public class BuildingPlacer : MonoBehaviour
         }
         EventManager.TriggerEvent("UpdateResourceTexts");
         EventManager.TriggerEvent("CheckBuildingButtons");
-
+        EventManager.TriggerEvent("PlaySoundByName", "onBuildingPlacedSound");
     }
 
     void _CancelPlacedBuilding()

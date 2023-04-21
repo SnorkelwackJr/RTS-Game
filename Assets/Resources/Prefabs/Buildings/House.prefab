@@ -130,6 +130,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectionCircle: {fileID: 6218855687493729741}
+  ambientSource: {fileID: 0}
 --- !u!1 &4896908203683164965
 GameObject:
   m_ObjectHideFlags: 0
