@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public GameGlobalParameters gameGlobalParameters;
     private Ray _ray;
     private RaycastHit _raycastHit;
     private void Awake()

@@ -9,9 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: Sound Parameters
+  m_Script: {fileID: 11500000, guid: 415ef5d8f50597e4fa1bc0f74d2dbde4, type: 3}
+  m_Name: Global Parameters
   m_EditorClassIdentifier: 
-  onStationCaptureSound: {fileID: 0}
-  onStationLostSound: {fileID: 0}
-  onBuildingPlacedSound: {fileID: 8300000, guid: 5ca00c140a5d73f4986584f0041a7b30, type: 3}
+  initialBuilding: {fileID: 0}
+  enableFOV: 0
