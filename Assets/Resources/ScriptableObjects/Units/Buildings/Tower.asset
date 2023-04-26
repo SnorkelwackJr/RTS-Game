@@ -21,3 +21,6 @@ MonoBehaviour:
   - code: wood
     amount: 200
   skills: []
+  fieldOfView: 5
+  onSelectSound: {fileID: 0}
+  ambientSound: {fileID: 0}

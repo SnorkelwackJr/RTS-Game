@@ -21,6 +21,7 @@ MonoBehaviour:
   - code: gold
     amount: 30
   skills: []
+  fieldOfView: 5
   onSelectSound: {fileID: 8300000, guid: d9e10fa9dd2ca5f4e996e1b832f8ff04, type: 3}
   onMoveValidSound: {fileID: 0}
   onMoveInvalidSound: {fileID: 0}
