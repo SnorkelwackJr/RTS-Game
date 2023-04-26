@@ -22,6 +22,5 @@ MonoBehaviour:
     amount: 150
   skills:
   - {fileID: 11400000, guid: cda60cc0c09b20248a60ffcc4b95e3b9, type: 2}
-  fieldOfView: 5
   onSelectSound: {fileID: 0}
   ambientSound: {fileID: 8300000, guid: e07cd6707acdda844880806fc32f3b0d, type: 3}

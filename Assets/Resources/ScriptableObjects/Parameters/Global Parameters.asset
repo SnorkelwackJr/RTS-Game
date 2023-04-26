@@ -12,5 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 415ef5d8f50597e4fa1bc0f74d2dbde4, type: 3}
   m_Name: Global Parameters
   m_EditorClassIdentifier: 
+  _fieldsToShowInGame:
+  - enableFOV
   initialBuilding: {fileID: 0}
   enableFOV: 0

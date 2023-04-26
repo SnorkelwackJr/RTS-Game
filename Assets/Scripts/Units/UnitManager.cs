@@ -10,7 +10,7 @@ public class UnitManager : MonoBehaviour
     private Transform _canvas;
     private GameObject _healthbar;
     protected BoxCollider _collider;
-    public GameObject fov;
+    //public GameObject fov;
     public virtual Unit Unit { get; set; }
 
     private void Awake()
@@ -97,8 +97,8 @@ public class UnitManager : MonoBehaviour
         contextualSource.PlayOneShot(Unit.Data.onSelectSound);
     }
 
-    public void EnableFOV()
-    {
-        fov.SetActive(true);
-    }
+    // public void EnableFOV()
+    // {
+    //     fov.SetActive(true);
+    // }
 }

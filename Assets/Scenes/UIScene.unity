@@ -3088,7 +3088,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ab93bb436937504a8fa4ec29902dd4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameGlobalParameters: {fileID: 0}
+  gameGlobalParameters: {fileID: 11400000, guid: c69810bb772c6114f8f0d3d19463a973, type: 2}
+  gameSoundParameters: {fileID: 11400000, guid: 7370fd231d10f52459134e718b610ac1, type: 2}
 --- !u!82 &952817926
 AudioSource:
   m_ObjectHideFlags: 0

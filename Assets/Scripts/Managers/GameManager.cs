@@ -3,8 +3,26 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public GameGlobalParameters gameGlobalParameters;
+    public GameSoundParameters gameSoundParameters;
     private Ray _ray;
     private RaycastHit _raycastHit;
+    private GameManager instance;
+
+    public void Start()
+    {
+        instance = this;
+
+        GameParameters[] gameParametersList =
+          Resources.LoadAll<GameParameters>("ScriptableObjects/Parameters");
+        foreach (GameParameters parameters in gameParametersList)
+        {
+            Debug.Log(parameters.GetParametersName());
+            Debug.Log("> Fields shown in-game:");
+            foreach (string fieldName in parameters.FieldsToShowInGame)
+                Debug.Log($"    {fieldName}");
+        }
+    }
+    
     private void Awake()
     {
         DataHandler.LoadGameData();

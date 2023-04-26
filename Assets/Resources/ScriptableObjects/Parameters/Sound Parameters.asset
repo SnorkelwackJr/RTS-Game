@@ -9,9 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: b4f1565210cbc9e40b3cf10c99983d6f, type: 3}
   m_Name: Sound Parameters
   m_EditorClassIdentifier: 
+  _fieldsToShowInGame:
+  - musicVolume
+  - sfxVolume
   onStationCaptureSound: {fileID: 0}
   onStationLostSound: {fileID: 0}
   onBuildingPlacedSound: {fileID: 8300000, guid: 5ca00c140a5d73f4986584f0041a7b30, type: 3}
+  musicVolume: 0
+  sfxVolume: 0
