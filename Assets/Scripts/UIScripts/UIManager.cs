@@ -30,6 +30,7 @@ public class UIManager : MonoBehaviour
     private Transform _selectedUnitResourcesProductionParent;
     private Transform _selectedUnitActionButtonsParent;
     private Unit _selectedUnit;
+    public GameObject gameSettingsPanel;
 
     private void Awake()
     {
@@ -94,6 +95,9 @@ public class UIManager : MonoBehaviour
             .Find("Buttons/SpecificActions");
         
         _ShowSelectedUnitMenu(false);
+
+        // hide game settings
+        gameSettingsPanel.SetActive(false);
     }
 
     private void OnEnable()
@@ -326,5 +330,11 @@ public class UIManager : MonoBehaviour
     private void _AddUnitSkillButtonListener(Button b, int i)
     {
         b.onClick.AddListener(() => _selectedUnit.TriggerSkill(i));
+    }
+
+    public void ToggleGameSettingsPanel()
+    {
+        bool showGameSettingsPanel = !gameSettingsPanel.activeSelf;
+        gameSettingsPanel.SetActive(showGameSettingsPanel);
     }
 }
