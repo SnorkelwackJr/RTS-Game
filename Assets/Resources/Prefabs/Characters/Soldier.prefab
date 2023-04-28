@@ -178,7 +178,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selectionCircle: {fileID: 2829738032007311545}
   contextualSource: {fileID: -7361878180333636515}
-  fov: {fileID: 6003487663535289010}
   agent: {fileID: 5615785553223776259}
 --- !u!195 &5615785553223776259
 NavMeshAgent:
@@ -211,10 +210,10 @@ AudioSource:
   m_GameObject: {fileID: 3725388289067207727}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -6899100740202571803, guid: e8ba9399eb538bd47956469459aeca1e, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.1
+  m_Volume: 1
   m_Pitch: 1
   Loop: 1
   Mute: 0

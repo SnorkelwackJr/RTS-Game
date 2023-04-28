@@ -133,7 +133,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selectionCircle: {fileID: 6218855687493729741}
   contextualSource: {fileID: 0}
-  fov: {fileID: 0}
   ambientSource: {fileID: 3261601089228073681}
 --- !u!82 &3261601089228073681
 AudioSource:
@@ -144,7 +143,7 @@ AudioSource:
   m_GameObject: {fileID: 4065403192896604963}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -6899100740202571803, guid: e8ba9399eb538bd47956469459aeca1e, type: 2}
   m_audioClip: {fileID: 8300000, guid: e07cd6707acdda844880806fc32f3b0d, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
