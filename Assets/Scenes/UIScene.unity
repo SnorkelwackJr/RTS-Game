@@ -2034,7 +2034,7 @@ Transform:
   - {fileID: 1942263453}
   - {fileID: 1014668468}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &495128435
 GameObject:
@@ -2996,7 +2996,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!1 &760230544
 GameObject:
@@ -3559,10 +3559,10 @@ AudioSource:
   m_GameObject: {fileID: 952817918}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 7062834647437484499, guid: e8ba9399eb538bd47956469459aeca1e, type: 2}
   m_audioClip: {fileID: 8300000, guid: 59d7783e3b18324498c86dbdb91b9162, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.02
+  m_Volume: 1
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -3660,6 +3660,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioSource: {fileID: 952817926}
   soundParameters: {fileID: 11400000, guid: 7370fd231d10f52459134e718b610ac1, type: 2}
+  paused: {fileID: 147306575726448042, guid: e8ba9399eb538bd47956469459aeca1e, type: 2}
+  unpaused: {fileID: 24500006, guid: e8ba9399eb538bd47956469459aeca1e, type: 2}
 --- !u!82 &952817928
 AudioSource:
   m_ObjectHideFlags: 0
@@ -4449,81 +4451,6 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: a24f1b9f2e6689046b3801b52d70a5dc, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 28571dc7a9cf7834892025d98a1fbe6a, type: 3}
---- !u!1 &1098040619
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1098040622}
-  - component: {fileID: 1098040621}
-  m_Layer: 0
-  m_Name: Minimap Camera
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!20 &1098040621
-Camera:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1098040619}
-  m_Enabled: 1
-  serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
-  m_projectionMatrixMode: 1
-  m_GateFitMode: 2
-  m_FOVAxisMode: 0
-  m_SensorSize: {x: 36, y: 24}
-  m_LensShift: {x: 0, y: 0}
-  m_FocalLength: 50
-  m_NormalizedViewPortRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1
-    height: 1
-  near clip plane: 0.3
-  far clip plane: 1000
-  field of view: 60
-  orthographic: 1
-  orthographic size: 100
-  m_Depth: 0
-  m_CullingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_RenderingPath: -1
-  m_TargetTexture: {fileID: 8400000, guid: 09c9ed32f1614d547b0fecd67dd81551, type: 2}
-  m_TargetDisplay: 0
-  m_TargetEye: 3
-  m_HDR: 1
-  m_AllowMSAA: 1
-  m_AllowDynamicResolution: 0
-  m_ForceIntoRT: 0
-  m_OcclusionCulling: 1
-  m_StereoConvergence: 10
-  m_StereoSeparation: 0.022
---- !u!4 &1098040622
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1098040619}
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 100, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!1 &1126559449
 GameObject:
   m_ObjectHideFlags: 0
@@ -7450,7 +7377,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2091487246
 MonoBehaviour:
