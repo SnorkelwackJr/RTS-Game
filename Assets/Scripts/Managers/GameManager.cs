@@ -6,7 +6,10 @@ public class GameManager : MonoBehaviour
     public GameSoundParameters gameSoundParameters;
     private Ray _ray;
     private RaycastHit _raycastHit;
-    private GameManager instance;
+    public static GameManager instance;
+
+    [HideInInspector]
+    public bool gameIsPaused;
 
     public void Start()
     {
@@ -26,10 +29,12 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         DataHandler.LoadGameData();
+        gameIsPaused = false;
     }
 
     private void Update()
     {
+        if (gameIsPaused) return;
         _CheckUnitsNavigation();
     }
 
@@ -50,5 +55,29 @@ public class GameManager : MonoBehaviour
                         ((CharacterManager)um).MoveTo(_raycastHit.point);
             }
         }
+    }
+
+    private void OnEnable()
+    {
+        EventManager.AddListener("PauseGame", _OnPauseGame);
+        EventManager.AddListener("ResumeGame", _OnResumeGame);
+    }
+
+    private void OnDisable()
+    {
+        EventManager.RemoveListener("PauseGame", _OnPauseGame);
+        EventManager.RemoveListener("ResumeGame", _OnResumeGame);
+    }
+
+    private void _OnPauseGame()
+    {
+        gameIsPaused = true;
+        Time.timeScale = 0;
+    }
+
+    private void _OnResumeGame()
+    {
+        gameIsPaused = false;
+        Time.timeScale = 1;
     }
 }

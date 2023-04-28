@@ -336,5 +336,6 @@ public class UIManager : MonoBehaviour
     {
         bool showGameSettingsPanel = !gameSettingsPanel.activeSelf;
         gameSettingsPanel.SetActive(showGameSettingsPanel);
+        EventManager.TriggerEvent(showGameSettingsPanel ? "PauseGame" : "ResumeGame");
     }
 }

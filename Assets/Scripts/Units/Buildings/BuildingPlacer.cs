@@ -10,6 +10,8 @@ public class BuildingPlacer : MonoBehaviour
 
     void Update()
     {
+        if (GameManager.instance.gameIsPaused) return;
+        
         if (_placedBuilding != null)
         {
             Globals.CURRENT_PLACED_BUILDING = _placedBuilding;

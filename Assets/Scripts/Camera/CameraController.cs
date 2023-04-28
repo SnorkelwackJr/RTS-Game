@@ -30,6 +30,8 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (GameManager.instance.gameIsPaused) return;
+        
         HandleMovementInput();
         Vector3 middle = Utils.MiddleOfScreenPointToWorld();
         groundTarget.position = middle;
