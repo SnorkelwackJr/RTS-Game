@@ -18,5 +18,5 @@ MonoBehaviour:
   onStationCaptureSound: {fileID: 0}
   onStationLostSound: {fileID: 0}
   onBuildingPlacedSound: {fileID: 8300000, guid: 5ca00c140a5d73f4986584f0041a7b30, type: 3}
-  musicVolume: 0
+  musicVolume: -12
   sfxVolume: 0
