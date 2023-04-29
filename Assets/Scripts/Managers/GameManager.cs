@@ -80,4 +80,11 @@ public class GameManager : MonoBehaviour
         gameIsPaused = false;
         Time.timeScale = 1;
     }
+
+    private void OnApplicationQuit()
+    {
+#if !UNITY_EDITOR
+        DataHandler.SaveGameData();
+#endif
+    }
 }
