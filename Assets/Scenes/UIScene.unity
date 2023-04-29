@@ -193,6 +193,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 118597024}
+  - component: {fileID: 118597025}
   m_Layer: 5
   m_Name: Content
   m_TagString: Untagged
@@ -218,8 +219,34 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: -0.00004386902}
-  m_SizeDelta: {x: 0, y: 300}
+  m_SizeDelta: {x: 0, y: 534.05}
   m_Pivot: {x: 0, y: 1}
+--- !u!114 &118597025
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 118597023}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59f8146938fff824cb5fd77236b75775, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 5
+    m_Right: 5
+    m_Top: 5
+    m_Bottom: 5
+  m_ChildAlignment: 1
+  m_Spacing: 10
+  m_ChildForceExpandWidth: 1
+  m_ChildForceExpandHeight: 1
+  m_ChildControlWidth: 1
+  m_ChildControlHeight: 1
+  m_ChildScaleWidth: 0
+  m_ChildScaleHeight: 0
+  m_ReverseArrangement: 0
 --- !u!1 &134074744
 GameObject:
   m_ObjectHideFlags: 0
@@ -3382,7 +3409,7 @@ MonoBehaviour:
   gameSettingsPanel: {fileID: 1654704290}
   gameSettingsMenusParent: {fileID: 1023885430}
   gameSettingsContentName: {fileID: 1006609362}
-  gameSettingsContentParent: {fileID: 1565995031}
+  gameSettingsContentParent: {fileID: 118597024}
   gameSettingsMenuButtonPrefab: {fileID: 7841991624603843710, guid: f14235709db51e044a2380b5280f88ee, type: 3}
   gameSettingsParameterPrefab: {fileID: 40904021247582060, guid: 4c2e36be457865645bc9bf1920ed9eb1, type: 3}
   sliderPrefab: {fileID: 8440325703701448871, guid: 95ea48fd5ec569e4a9f10efb44cb74de, type: 3}
@@ -4900,7 +4927,7 @@ MonoBehaviour:
   m_DecelerationRate: 0.135
   m_ScrollSensitivity: 1
   m_Viewport: {fileID: 1914585716}
-  m_HorizontalScrollbar: {fileID: 1796803789}
+  m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 1931733225}
   m_HorizontalScrollbarVisibility: 2
   m_VerticalScrollbarVisibility: 2
