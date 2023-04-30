@@ -8,6 +8,15 @@ public class BuildingPlacer : MonoBehaviour
     private RaycastHit _raycastHit;
     private Vector3 _lastPlacementPosition;
 
+    private void Start()
+    {
+        // instantiate headquarters at the beginning of the game
+        // _placedBuilding = new Building(
+        //     GameManager.instance.gameGlobalParameters.initialBuilding,
+        //     GameManager.instance.gamePlayersParameters.myPlayerId
+        // );
+    }
+
     void Update()
     {
         if (GameManager.instance.gameIsPaused) return;
@@ -58,7 +67,8 @@ public class BuildingPlacer : MonoBehaviour
         }
 
         Building building = new Building(
-            Globals.BUILDING_DATA[buildingDataIndex]
+            Globals.BUILDING_DATA[buildingDataIndex],
+            GameManager.instance.gamePlayersParameters.myPlayerId
         );
 
         // link the data into the manager

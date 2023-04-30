@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
 
     [HideInInspector]
     public bool gameIsPaused;
+    public GamePlayersParameters gamePlayersParameters;
 
     public void Start()
     {

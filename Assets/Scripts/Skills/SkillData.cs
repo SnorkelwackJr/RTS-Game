@@ -28,14 +28,17 @@ public class SkillData : ScriptableObject
                 {
                     BoxCollider coll = source.GetComponent<BoxCollider>();
                     Vector3 instantiationPosition = new Vector3(
-                        source.transform.position.x,
+                        source.transform.position.x + coll.size.x * 1.2f,
                         source.transform.position.y,
-                        source.transform.position.z  - (coll.size.z * 8f)
+                        source.transform.position.z - coll.size.z * 1.2f
                     );
                     CharacterData d = (CharacterData) unitReference;
-                    Character c = new Character(d);
-                    c.Transform.GetComponent<NavMeshAgent>().Warp(instantiationPosition);
+                    UnitManager sourceUnitManager = source.GetComponent<UnitManager>();
+                    if (sourceUnitManager == null)
+                        return;
+                    Character c = new Character(d, sourceUnitManager.Unit.Owner);
                     c.Transform.GetComponent<CharacterManager>().Initialize(c);
+                    c.Transform.GetComponent<NavMeshAgent>().Warp(instantiationPosition);
                 }
                 break;
             default:

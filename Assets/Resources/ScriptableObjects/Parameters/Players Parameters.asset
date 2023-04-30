@@ -9,10 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 415ef5d8f50597e4fa1bc0f74d2dbde4, type: 3}
-  m_Name: Global Parameters
+  m_Script: {fileID: 11500000, guid: 45a3096e8dc422f46ae062638df66c07, type: 3}
+  m_Name: Players Parameters
   m_EditorClassIdentifier: 
-  _fieldsToShowInGame:
-  - enableFOV
-  initialBuilding: {fileID: 11400000, guid: 2b29b04a346dc0d4b9838574874d962b, type: 2}
-  enableFOV: 0
+  _fieldsToShowInGame: []
+  players:
+  - name: Team1
+    color: {r: 1, g: 0, b: 0.05406809, a: 0}
+  - name: Team2
+    color: {r: 0, g: 0.19896221, b: 1, a: 0}
+  myPlayerId: 1

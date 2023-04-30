@@ -11,15 +11,17 @@ public class Unit
     protected int _level;
     protected List<ResourceValue> _production;
     protected List<SkillManager> _skillManagers;
+    protected int _owner;
 
-    public Unit(UnitData data) : this(data, new List<ResourceValue>() { }) { }
-    public Unit(UnitData data, List<ResourceValue> production)
+    public Unit(UnitData data, int owner) : this(data, owner, new List<ResourceValue>() { }) { }
+    public Unit(UnitData data, int owner, List<ResourceValue> production)
     {
         _data = data;
         _currentHealth = data.healthpoints;
 
         GameObject g = GameObject.Instantiate(data.prefab) as GameObject;
         _transform = g.transform;
+        _transform.GetComponent<UnitManager>().SetOwnerMaterial(owner);
 
         _uid = System.Guid.NewGuid().ToString();
         _level = 1;
@@ -36,6 +38,8 @@ public class Unit
 
         // use the data to set the FOV size
         //_transform.Find("FOV").transform.localScale = new Vector3(data.fieldOfView, data.fieldOfView, 0f);
+    
+        _owner = owner;
     }
 
     public void SetPosition(Vector3 position)
@@ -89,4 +93,5 @@ public class Unit
     public int Level { get => _level; }
     public List<ResourceValue> Production { get => _production; }
     public List<SkillManager> SkillManagers { get => _skillManagers; }
+    public int Owner { get => _owner; }
 }
