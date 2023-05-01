@@ -101,9 +101,9 @@ public class UnitManager : MonoBehaviour
     public void SetOwnerMaterial(int owner)
     {
         Color playerColor = GameManager.instance.gamePlayersParameters.players[owner].color;
-        Material[] materials = transform.Find("Mesh").GetComponent<Renderer>().materials;
+        Material[] materials = transform.GetComponent<Renderer>().materials;
         materials[ownerMaterialSlotIndex].color = playerColor;
-        transform.Find("Mesh").GetComponent<Renderer>().materials = materials;
+        transform.GetComponent<Renderer>().materials = materials;
     }
 
     // public void EnableFOV()

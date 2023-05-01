@@ -21,7 +21,7 @@ public class Building : Unit
     {
         _buildingManager = _transform.GetComponent<BuildingManager>();
         _materials = new List<Material>();
-        foreach (Material material in _transform.Find("Mesh").GetComponent<Renderer>().materials)
+        foreach (Material material in _transform.GetComponent<Renderer>().materials)
         {
             _materials.Add(new Material(material));
         }

@@ -71,8 +71,6 @@ public class BuildingPlacer : MonoBehaviour
             GameManager.instance.gamePlayersParameters.myPlayerId
         );
 
-        // link the data into the manager
-        building.Transform.GetComponent<BuildingManager>().Initialize(building);
         _placedBuilding = building;
         _lastPlacementPosition = Vector3.zero;
     }

@@ -40,6 +40,8 @@ public class Unit
         //_transform.Find("FOV").transform.localScale = new Vector3(data.fieldOfView, data.fieldOfView, 0f);
     
         _owner = owner;
+
+        _transform.GetComponent<UnitManager>().Initialize(this);
     }
 
     public void SetPosition(Vector3 position)

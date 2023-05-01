@@ -133,6 +133,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selectionCircle: {fileID: 6218855687493729741}
   contextualSource: {fileID: 0}
+  ownerMaterialSlotIndex: 0
   ambientSource: {fileID: 3261601089228073681}
 --- !u!82 &3261601089228073681
 AudioSource:
