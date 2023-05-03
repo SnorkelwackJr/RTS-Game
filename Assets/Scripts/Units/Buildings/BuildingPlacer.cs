@@ -77,6 +77,7 @@ public class BuildingPlacer : MonoBehaviour
 
     void _PlaceBuilding()
     {
+        _placedBuilding.ComputeProduction();
         _placedBuilding.Place();
         
         if (_placedBuilding.CanBuy())

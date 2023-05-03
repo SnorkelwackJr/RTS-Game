@@ -23,7 +23,7 @@ public class UIManager : MonoBehaviour
     private TMPro.TextMeshProUGUI _infoPanelTitleText;
     private TMPro.TextMeshProUGUI _infoPanelDescriptionText;
     private Transform _infoPanelResourcesCostParent;
-    private Dictionary<string, TMPro.TextMeshProUGUI> _resourceTexts;
+    private Dictionary<InGameResource, TMPro.TextMeshProUGUI> _resourceTexts;
     private RectTransform _selectedUnitContentRectTransform;
     private RectTransform _selectedUnitButtonsRectTransform;
     private TMPro.TextMeshProUGUI _selectedUnitTitleText;
@@ -44,11 +44,11 @@ public class UIManager : MonoBehaviour
     private void Awake()
     {
         // create texts for each in-game resource (gold, wood, stone...)
-        _resourceTexts = new Dictionary<string, TMPro.TextMeshProUGUI>();
-        foreach (KeyValuePair<string, GameResource> pair in Globals.GAME_RESOURCES)
+        _resourceTexts = new Dictionary<InGameResource, TMPro.TextMeshProUGUI>();
+        foreach (KeyValuePair<InGameResource, GameResource> pair in Globals.GAME_RESOURCES)
         {
             GameObject display = Instantiate(gameResourceDisplayPrefab, resourcesUIParent);
-            display.name = pair.Key;
+            display.name = pair.Key.ToString();
             _resourceTexts[pair.Key] = display.transform.Find("Text").GetComponent<TMPro.TextMeshProUGUI>();
             _SetResourceText(pair.Key, pair.Value.Amount);
         }
@@ -143,17 +143,9 @@ public class UIManager : MonoBehaviour
         b.onClick.AddListener(() => _buildingPlacer.SelectPlacedBuilding(i));
     }
 
-    private void _SetResourceText(string resource, int value)
+    private void _SetResourceText(InGameResource resource, int value)
     {
         _resourceTexts[resource].text = value.ToString();
-    }
-
-    public void UpdateResourceTexts()
-    {
-        foreach (KeyValuePair<string, GameResource> pair in Globals.GAME_RESOURCES)
-        {
-            _SetResourceText(pair.Key, pair.Value.Amount);
-        }
     }
 
     public void CheckBuildingButtons()
@@ -164,9 +156,9 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void _OnUpdateResourceTexts()
+    private void _OnUpdateResourceTexts()
     {
-        foreach(KeyValuePair<string, GameResource> pair in Globals.GAME_RESOURCES)
+        foreach (KeyValuePair<InGameResource, GameResource> pair in Globals.GAME_RESOURCES)
         {
             _SetResourceText(pair.Key, pair.Value.Amount);
         }
@@ -309,13 +301,13 @@ public class UIManager : MonoBehaviour
         if (unit.Production.Count > 0)
         {
             GameObject g; Transform t;
-            foreach (ResourceValue resource in unit.Production)
+            foreach (KeyValuePair<InGameResource, int> resource in unit.Production)
             {
                 g = GameObject.Instantiate(
                     gameResourceCostPrefab, _selectedUnitResourcesProductionParent);
                 t = g.transform;
-                t.Find("Text").GetComponent<TMPro.TextMeshProUGUI>().text = $"+{resource.amount}";
-                t.Find("Icon").GetComponent<Image>().sprite = Resources.Load<Sprite>($"Textures/GameResources/{resource.code}");
+                t.Find("Text").GetComponent<TMPro.TextMeshProUGUI>().text = $"+{resource.Value}";
+                t.Find("Icon").GetComponent<Image>().sprite = Resources.Load<Sprite>($"Textures/GameResources/{resource.Key}");
             }
         }
 

@@ -10,4 +10,8 @@ public class GameGlobalParameters : GameParameters
 
     [Header("FOV")]
     public bool enableFOV;
+
+    public int baseGoldProduction;
+    public int baseWoodProduction;
+    public int baseStoneProduction;
 }

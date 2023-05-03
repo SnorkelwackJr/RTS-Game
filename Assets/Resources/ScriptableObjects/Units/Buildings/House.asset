@@ -18,11 +18,10 @@ MonoBehaviour:
   healthpoints: 100
   prefab: {fileID: 4065403192896604963, guid: 85bee3a9035b3f246963c5c9cc85c25b, type: 3}
   cost:
-  - code: gold
+  - code: 0
     amount: 100
-  - code: wood
+  - code: 1
     amount: 120
   skills: []
-  fieldOfView: 5
   onSelectSound: {fileID: 0}
   ambientSound: {fileID: 0}

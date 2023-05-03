@@ -16,3 +16,6 @@ MonoBehaviour:
   - enableFOV
   initialBuilding: {fileID: 11400000, guid: 2b29b04a346dc0d4b9838574874d962b, type: 2}
   enableFOV: 0
+  baseGoldProduction: 1
+  baseWoodProduction: 0
+  baseStoneProduction: 0

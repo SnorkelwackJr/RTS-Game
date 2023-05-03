@@ -37,6 +37,7 @@ public class SkillData : ScriptableObject
                     if (sourceUnitManager == null)
                         return;
                     Character c = new Character(d, sourceUnitManager.Unit.Owner);
+                    c.ComputeProduction();
                     c.Transform.GetComponent<NavMeshAgent>().Warp(instantiationPosition);
                 }
                 break;

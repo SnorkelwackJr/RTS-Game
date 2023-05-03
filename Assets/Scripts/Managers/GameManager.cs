@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -12,9 +14,16 @@ public class GameManager : MonoBehaviour
     public bool gameIsPaused;
     public GamePlayersParameters gamePlayersParameters;
 
+    [HideInInspector]
+    public List<Unit> ownedProducingUnits = new List<Unit>();
+    private float _producingRate = 1f; // in seconds
+    private Coroutine _producingResourcesCoroutine = null;
+
     public void Start()
     {
         instance = this;
+
+        _producingResourcesCoroutine = StartCoroutine("_ProducingResources");
 
         GameParameters[] gameParametersList =
           Resources.LoadAll<GameParameters>("ScriptableObjects/Parameters");
@@ -74,12 +83,21 @@ public class GameManager : MonoBehaviour
     {
         gameIsPaused = true;
         Time.timeScale = 0;
+
+        if (_producingResourcesCoroutine != null)
+        {
+            StopCoroutine(_producingResourcesCoroutine);
+            _producingResourcesCoroutine = null;
+        }
     }
 
     private void _OnResumeGame()
     {
         gameIsPaused = false;
         Time.timeScale = 1;
+
+        if (_producingResourcesCoroutine == null)
+            _producingResourcesCoroutine = StartCoroutine("_ProducingResources");
     }
 
     private void OnApplicationQuit()
@@ -87,5 +105,16 @@ public class GameManager : MonoBehaviour
 #if !UNITY_EDITOR
         DataHandler.SaveGameData();
 #endif
+    }
+
+    private IEnumerator _ProducingResources()
+    {
+        while (true)
+        {
+            foreach (Unit unit in ownedProducingUnits)
+                unit.ProduceResources();
+            EventManager.TriggerEvent("UpdateResourceTexts");
+            yield return new WaitForSeconds(_producingRate);
+        }
     }
 }

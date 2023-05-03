@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Unit
@@ -9,7 +10,7 @@ public class Unit
     protected int _currentHealth;
     protected string _uid;
     protected int _level;
-    protected List<ResourceValue> _production;
+    protected Dictionary<InGameResource, int> _production;
     protected List<SkillManager> _skillManagers;
     protected int _owner;
 
@@ -25,7 +26,7 @@ public class Unit
 
         _uid = System.Guid.NewGuid().ToString();
         _level = 1;
-        _production = production;
+        _production = production.ToDictionary(rv => rv.code, rv => rv.amount);
 
         _skillManagers = new List<SkillManager>();
         SkillManager sm;
@@ -54,11 +55,17 @@ public class Unit
         // remove "is trigger" flag from box collider to allow
         // for collisions with units
         _transform.GetComponent<BoxCollider>().isTrigger = false;
+        
         // update game resources: remove the cost of the building
         // from each game resource
-        foreach (ResourceValue resource in _data.Cost)
+        if (_owner == GameManager.instance.gamePlayersParameters.myPlayerId)
         {
-            Globals.GAME_RESOURCES[resource.code].AddAmount(-resource.amount);
+            foreach (ResourceValue resource in _data.Cost)
+            {
+                Globals.GAME_RESOURCES[resource.code].AddAmount(-resource.amount);
+            }
+            if (_production.Count > 0)
+                GameManager.instance.ownedProducingUnits.Add(this);
         }
 
         // enable FOV when unit is placed
@@ -77,8 +84,34 @@ public class Unit
 
     public void ProduceResources()
     {
-        foreach (ResourceValue resource in _production)
-            Globals.GAME_RESOURCES[resource.code].AddAmount(resource.amount);
+        foreach (KeyValuePair<InGameResource, int> resource in _production)
+        {
+            Globals.GAME_RESOURCES[resource.Key].AddAmount(resource.Value);
+        }
+    }
+
+    /* Compute and set the resource production of the unit */
+    public Dictionary<InGameResource, int> ComputeProduction()
+    {
+        if (_data.canProduce.Length == 0) return null;
+
+        GameGlobalParameters globalParams = GameManager.instance.gameGlobalParameters;
+        if (_data.canProduce.Contains(InGameResource.Gold))
+        {
+            _production[InGameResource.Gold] = globalParams.baseGoldProduction;
+        }
+
+        if (_data.canProduce.Contains(InGameResource.Wood))
+        {
+            _production[InGameResource.Wood] = globalParams.baseWoodProduction;
+        }
+
+        if (_data.canProduce.Contains(InGameResource.Stone))
+        {
+            _production[InGameResource.Stone] = globalParams.baseStoneProduction;
+        }
+
+        return _production;
     }
 
     public void TriggerSkill(int index, GameObject target = null)
@@ -93,7 +126,7 @@ public class Unit
     public int MaxHP { get => _data.healthpoints; }
     public string Uid { get => _uid; }
     public int Level { get => _level; }
-    public List<ResourceValue> Production { get => _production; }
+    public Dictionary<InGameResource, int> Production { get => _production; }
     public List<SkillManager> SkillManagers { get => _skillManagers; }
     public int Owner { get => _owner; }
 }
