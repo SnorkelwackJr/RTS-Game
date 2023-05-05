@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0e7b086ae4bbaa94ba7a1cc417cc9d89, type: 3}
-  m_Name: Tower
+  m_Name: Lumber Mill
   m_EditorClassIdentifier: 
-  code: tower
-  unitName: Tower
-  description: This is a tall tower.
-  healthpoints: 250
-  prefab: {fileID: 4065403192896604963, guid: 62e10f6ade1fcdc438460a922b127026, type: 3}
+  code: lumber_mill
+  unitName: Lumber Mill
+  description: This place produces wood.
+  healthpoints: 200
+  prefab: {fileID: 4065403192896604963, guid: 01c5017928fc9294989ccba57f4795a4, type: 3}
   cost:
-  - code: 2
-    amount: 200
+  - code: 0
+    amount: 100
   skills: []
-  canProduce: 
+  canProduce: 01000000
   onSelectSound: {fileID: 0}
   ambientSound: {fileID: 0}

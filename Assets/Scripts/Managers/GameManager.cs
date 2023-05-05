@@ -16,24 +16,13 @@ public class GameManager : MonoBehaviour
 
     [HideInInspector]
     public List<Unit> ownedProducingUnits = new List<Unit>();
-    private float _producingRate = 1f; // in seconds
-    private Coroutine _producingResourcesCoroutine = null;
+
+    [HideInInspector]
+    public float producingRate = 3f; // in seconds
 
     public void Start()
     {
         instance = this;
-
-        _producingResourcesCoroutine = StartCoroutine("_ProducingResources");
-
-        GameParameters[] gameParametersList =
-          Resources.LoadAll<GameParameters>("ScriptableObjects/Parameters");
-        foreach (GameParameters parameters in gameParametersList)
-        {
-            Debug.Log(parameters.GetParametersName());
-            Debug.Log("> Fields shown in-game:");
-            foreach (string fieldName in parameters.FieldsToShowInGame)
-                Debug.Log($"    {fieldName}");
-        }
     }
     
     private void Awake()
@@ -83,21 +72,12 @@ public class GameManager : MonoBehaviour
     {
         gameIsPaused = true;
         Time.timeScale = 0;
-
-        if (_producingResourcesCoroutine != null)
-        {
-            StopCoroutine(_producingResourcesCoroutine);
-            _producingResourcesCoroutine = null;
-        }
     }
 
     private void _OnResumeGame()
     {
         gameIsPaused = false;
         Time.timeScale = 1;
-
-        if (_producingResourcesCoroutine == null)
-            _producingResourcesCoroutine = StartCoroutine("_ProducingResources");
     }
 
     private void OnApplicationQuit()
@@ -105,16 +85,5 @@ public class GameManager : MonoBehaviour
 #if !UNITY_EDITOR
         DataHandler.SaveGameData();
 #endif
-    }
-
-    private IEnumerator _ProducingResources()
-    {
-        while (true)
-        {
-            foreach (Unit unit in ownedProducingUnits)
-                unit.ProduceResources();
-            EventManager.TriggerEvent("UpdateResourceTexts");
-            yield return new WaitForSeconds(_producingRate);
-        }
     }
 }

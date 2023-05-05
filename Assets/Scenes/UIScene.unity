@@ -3558,6 +3558,7 @@ MonoBehaviour:
   gameSoundParameters: {fileID: 11400000, guid: 7370fd231d10f52459134e718b610ac1, type: 2}
   gameIsPaused: 0
   gamePlayersParameters: {fileID: 11400000, guid: a5da65c55a05b0449b320070c66d2115, type: 2}
+  producingRate: 3
 --- !u!82 &952817926
 AudioSource:
   m_ObjectHideFlags: 0
