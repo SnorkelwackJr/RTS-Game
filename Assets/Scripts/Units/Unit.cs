@@ -91,7 +91,7 @@ public class Unit
     /* Compute and set the resource production of the unit */
     public Dictionary<InGameResource, int> ComputeProduction()
     {
-        if (_data.canProduce.Length == 0) return null;
+        if (_data.canProduce == null) return null;
 
         GameGlobalParameters globalParams = GameManager.instance.gameGlobalParameters;
         if (_data.canProduce.Contains(InGameResource.Gold))

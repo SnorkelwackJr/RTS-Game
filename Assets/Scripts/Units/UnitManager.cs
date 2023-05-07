@@ -14,6 +14,9 @@ public class UnitManager : MonoBehaviour
     public virtual Unit Unit { get; set; }
     public int ownerMaterialSlotIndex = 0;
 
+    private bool _selected = false;
+    public bool IsSelected { get => _selected; }
+
     private void Awake()
     {
         _canvas = GameObject.Find("Canvas").transform;
@@ -76,6 +79,8 @@ public class UnitManager : MonoBehaviour
         _healthbar = null;
 
         EventManager.TriggerEvent("DeselectUnit", Unit);
+        
+        _selected = false;
     }
 
     private void _SelectUtil()
@@ -96,6 +101,8 @@ public class UnitManager : MonoBehaviour
 
         // play sound
         contextualSource.PlayOneShot(Unit.Data.onSelectSound);
+
+        _selected = true;
     }
 
     public void SetOwnerMaterial(int owner)
