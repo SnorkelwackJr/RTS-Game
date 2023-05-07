@@ -10,7 +10,7 @@ public class UnitManager : MonoBehaviour
     private Transform _canvas;
     private GameObject _healthbar;
     protected BoxCollider _collider;
-    //public GameObject fov;
+    public GameObject fov;
     public virtual Unit Unit { get; set; }
     public int ownerMaterialSlotIndex = 0;
 
@@ -113,8 +113,29 @@ public class UnitManager : MonoBehaviour
         transform.GetComponent<Renderer>().materials = materials;
     }
 
-    // public void EnableFOV()
-    // {
-    //     fov.SetActive(true);
-    // }
+    public void EnableFOV()
+    {
+        fov.SetActive(false); //FIXME
+    }
+
+    public void Attack(Transform target)
+    {
+        UnitManager um = target.GetComponent<UnitManager>();
+        if (um == null) return;
+        um.TakeHit(Unit.Data.attackDamage);
+    }
+
+    public void TakeHit(int attackPoints)
+    {
+        Unit.HP -= attackPoints;
+        //update healthbar eventually
+        if (Unit.HP <= 0) _Die();
+    }
+
+    private void _Die()
+    {
+        if (_selected)
+            Deselect();            
+        Destroy(gameObject);
+    }
 }

@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     private Ray _ray;
     private RaycastHit _raycastHit;
     public static GameManager instance;
+    public Vector3 startPosition;
 
     [HideInInspector]
     public bool gameIsPaused;
@@ -29,6 +30,8 @@ public class GameManager : MonoBehaviour
     {
         DataHandler.LoadGameData();
         gameIsPaused = false;
+
+        _GetStartPosition();
     }
 
     private void Update()
@@ -65,5 +68,10 @@ public class GameManager : MonoBehaviour
 #if !UNITY_EDITOR
         DataHandler.SaveGameData();
 #endif
+    }
+
+    private void _GetStartPosition()
+    {
+        startPosition = Utils.MiddleOfScreenPointToWorld();
     }
 }

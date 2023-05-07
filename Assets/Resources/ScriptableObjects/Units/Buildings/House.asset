@@ -16,6 +16,7 @@ MonoBehaviour:
   unitName: House
   description: This is a house.
   healthpoints: 100
+  fieldOfView: 20
   prefab: {fileID: 4065403192896604963, guid: 85bee3a9035b3f246963c5c9cc85c25b, type: 3}
   cost:
   - code: 0
@@ -23,5 +24,9 @@ MonoBehaviour:
   - code: 1
     amount: 120
   skills: []
+  canProduce: 
+  attackRange: 0
+  attackDamage: 0
+  attackRate: 0
   onSelectSound: {fileID: 0}
   ambientSound: {fileID: 0}

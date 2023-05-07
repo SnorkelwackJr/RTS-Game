@@ -11,10 +11,19 @@ public class BuildingPlacer : MonoBehaviour
     private void Start()
     {
         // instantiate headquarters at the beginning of the game
-        // _placedBuilding = new Building(
-        //     GameManager.instance.gameGlobalParameters.initialBuilding,
-        //     GameManager.instance.gamePlayersParameters.myPlayerId
-        // );
+        _placedBuilding = new Building(
+            GameManager.instance.gameGlobalParameters.initialBuilding,
+            0
+        );
+        _placedBuilding.SetPosition(GameManager.instance.startPosition);
+
+        // link the data into the manager
+        _placedBuilding.Transform.GetComponent<BuildingManager>().Initialize(_placedBuilding);
+        _PlaceBuilding();
+        
+        // make sure we have no building selected when the player starts
+        // to play
+        _CancelPlacedBuilding();
     }
 
     void Update()

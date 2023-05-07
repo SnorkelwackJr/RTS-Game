@@ -179,6 +179,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selectionCircle: {fileID: 2829738032007311545}
   contextualSource: {fileID: -7361878180333636515}
+  fov: {fileID: 6003487663535289010}
   ownerMaterialSlotIndex: 0
   agent: {fileID: 5615785553223776259}
 --- !u!195 &5615785553223776259

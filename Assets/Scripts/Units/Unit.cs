@@ -38,8 +38,8 @@ public class Unit
         }
 
         // use the data to set the FOV size
-        //_transform.Find("FOV").transform.localScale = new Vector3(data.fieldOfView, data.fieldOfView, 0f);
-    
+        _transform.Find("FOV").transform.localScale = new Vector3(data.fieldOfView, data.fieldOfView, 0f);
+
         _owner = owner;
 
         _transform.GetComponent<UnitManager>().Initialize(this);
@@ -67,7 +67,7 @@ public class Unit
         }
 
         // enable FOV when unit is placed
-        //_transform.GetComponent<UnitManager>().EnableFOV();
+        _transform.GetComponent<UnitManager>().EnableFOV();
     }
 
     public bool CanBuy()

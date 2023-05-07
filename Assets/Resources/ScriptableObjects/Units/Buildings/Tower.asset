@@ -16,11 +16,15 @@ MonoBehaviour:
   unitName: Tower
   description: This is a tall tower.
   healthpoints: 250
+  fieldOfView: 30
   prefab: {fileID: 4065403192896604963, guid: 62e10f6ade1fcdc438460a922b127026, type: 3}
   cost:
   - code: 2
     amount: 200
   skills: []
   canProduce: 
+  attackRange: 50
+  attackDamage: 10
+  attackRate: 2
   onSelectSound: {fileID: 0}
   ambientSound: {fileID: 0}

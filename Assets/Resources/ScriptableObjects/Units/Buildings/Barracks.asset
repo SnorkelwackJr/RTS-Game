@@ -16,11 +16,16 @@ MonoBehaviour:
   unitName: Barracks
   description: This is where baby soldiers come from.
   healthpoints: 150
+  fieldOfView: 20
   prefab: {fileID: 4065403192896604963, guid: 01c5017928fc9294989ccba57f4795a4, type: 3}
   cost:
-  - code: gold
+  - code: 0
     amount: 150
   skills:
   - {fileID: 11400000, guid: cda60cc0c09b20248a60ffcc4b95e3b9, type: 2}
+  canProduce: 
+  attackRange: 0
+  attackDamage: 0
+  attackRate: 0
   onSelectSound: {fileID: 0}
   ambientSound: {fileID: 8300000, guid: e07cd6707acdda844880806fc32f3b0d, type: 3}
