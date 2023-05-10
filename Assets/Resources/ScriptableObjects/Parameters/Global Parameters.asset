@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _fieldsToShowInGame:
   - enableFOV
-  initialBuilding: {fileID: 11400000, guid: 83a0adb28c791164f92f0f73d909b116, type: 2}
+  initialBuilding: {fileID: 11400000, guid: 2b29b04a346dc0d4b9838574874d962b, type: 2}
   enableFOV: 0
   baseGoldProduction: 1
   baseWoodProduction: 3

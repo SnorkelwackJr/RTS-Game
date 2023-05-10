@@ -9,10 +9,14 @@ public class Unit
     protected Transform _transform;
     protected int _currentHealth;
     protected string _uid;
-    protected int _level;
+    protected int _attackDamage;
+    protected float _attackRange;
     protected Dictionary<InGameResource, int> _production;
     protected List<SkillManager> _skillManagers;
     protected int _owner;
+    protected int _currentXP;
+    protected int _currentPromotionLevel;
+    protected int _timesPromoted;
 
     public Unit(UnitData data, int owner) : this(data, owner, new List<ResourceValue>() { }) { }
     public Unit(UnitData data, int owner, List<ResourceValue> production)
@@ -25,8 +29,11 @@ public class Unit
         _transform.GetComponent<UnitManager>().SetOwnerMaterial(owner);
 
         _uid = System.Guid.NewGuid().ToString();
-        _level = 1;
+        _currentPromotionLevel = 0;
+        _timesPromoted = 0;
         _production = production.ToDictionary(rv => rv.code, rv => rv.amount);
+        _attackDamage = data.attackDamage;
+        _attackRange = data.attackRange;
 
         _skillManagers = new List<SkillManager>();
         SkillManager sm;
@@ -75,9 +82,19 @@ public class Unit
         return _data.CanBuy();
     }
 
-    public void LevelUp()
+    public void Promote()
     {
-        _level += 1;
+        // TODO: inherit this by unit type!
+
+        // update health
+        float healthMultiplier = 1.1f;
+        _data.healthpoints = Mathf.CeilToInt(_data.healthpoints * healthMultiplier);
+
+        // update attack
+        float attDamageMultiplier = 1.1f;
+        _attackDamage = Mathf.CeilToInt(_attackDamage * attDamageMultiplier);
+        float attRangeMultiplier = 1.2f;
+        _attackRange *= attRangeMultiplier;
     }
 
     public void ProduceResources()
@@ -123,8 +140,12 @@ public class Unit
     public int HP { get => _currentHealth; set => _currentHealth = value; }
     public int MaxHP { get => _data.healthpoints; }
     public string Uid { get => _uid; }
-    public int Level { get => _level; }
+    public int AttackDamage { get => _attackDamage; }
+    public float AttackRange { get => _attackRange; }
     public Dictionary<InGameResource, int> Production { get => _production; }
     public List<SkillManager> SkillManagers { get => _skillManagers; }
     public int Owner { get => _owner; }
+    public int CurrentXP { get => _currentXP; set => _currentXP = value; }
+    public int CurrentPromotionLevel { get => _currentPromotionLevel; set => _currentPromotionLevel = value; }
+    public int TimesPromoted { get => _timesPromoted; set => _timesPromoted = value; }
 }

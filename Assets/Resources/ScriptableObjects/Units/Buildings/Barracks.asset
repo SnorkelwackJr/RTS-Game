@@ -27,5 +27,8 @@ MonoBehaviour:
   attackRange: 0
   attackDamage: 0
   attackRate: 0
+  xpGivenOnDeath: 20
+  xpPromotionThreshold: 0
+  maxXP: 0
   onSelectSound: {fileID: 0}
   ambientSound: {fileID: 8300000, guid: e07cd6707acdda844880806fc32f3b0d, type: 3}

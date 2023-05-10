@@ -16,6 +16,10 @@ public class UnitData : ScriptableObject
     public float attackRange;
     public int attackDamage;
     public float attackRate;
+    public bool canBePromoted;
+    public int xpGivenOnDeath;
+    public int xpPromotionThreshold;
+    public int maxXP;
 
     [Header("General Sounds")]
     public AudioClip onSelectSound;

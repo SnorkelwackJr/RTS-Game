@@ -28,6 +28,22 @@ public class UnitManager : MonoBehaviour
         Unit = unit;
     }
 
+    private void Update()
+    {
+        if (Unit.Data.canBePromoted)
+        {
+            Unit.CurrentPromotionLevel = Unit.CurrentXP / Unit.Data.xpPromotionThreshold;
+
+            int numPromotionsNeeded = Unit.CurrentPromotionLevel - Unit.TimesPromoted;
+            if (numPromotionsNeeded > 0) Debug.Log($"{Unit.Code} will be promoted {numPromotionsNeeded} times!");
+            for (int i = 0; i < numPromotionsNeeded; i++)
+            {
+                Unit.Promote();
+                Unit.TimesPromoted += 1;
+            }
+        }
+    }
+
     private void OnMouseDown()
     {
        Select(true, Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift));
@@ -122,14 +138,29 @@ public class UnitManager : MonoBehaviour
     {
         UnitManager um = target.GetComponent<UnitManager>();
         if (um == null) return;
-        um.TakeHit(Unit.Data.attackDamage);
+        int targetHealth = um.TakeHit(Unit.AttackDamage);
+        
+        if (targetHealth <= 0) 
+        {
+            Unit.CurrentXP += um.Unit.Data.xpGivenOnDeath;
+            if (Unit.CurrentXP > Unit.Data.maxXP)
+            {
+                Unit.CurrentXP = Unit.Data.maxXP;
+            }
+
+            // kill target
+            um._Die();
+        }
     }
 
-    public void TakeHit(int attackPoints)
+    public int TakeHit(int attackPoints)
     {
         Unit.HP -= attackPoints;
+
         //update healthbar eventually
-        if (Unit.HP <= 0) _Die();
+        Debug.Log($"{Unit.Code} health: {Unit.HP}");
+        
+        return Unit.HP;
     }
 
     private void _Die()

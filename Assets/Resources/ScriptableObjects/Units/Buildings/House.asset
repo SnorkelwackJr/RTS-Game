@@ -28,5 +28,8 @@ MonoBehaviour:
   attackRange: 0
   attackDamage: 0
   attackRate: 0
+  xpGivenOnDeath: 10
+  xpPromotionThreshold: 0
+  maxXP: 0
   onSelectSound: {fileID: 0}
   ambientSound: {fileID: 0}

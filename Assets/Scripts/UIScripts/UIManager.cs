@@ -299,7 +299,7 @@ public class UIManager : MonoBehaviour
         
         // update texts
         _selectedUnitTitleText.text = unit.Data.unitName;
-        _selectedUnitLevelText.text = $"Level {unit.Level}";
+        _selectedUnitLevelText.text = $"Promotion Level {unit.CurrentPromotionLevel + 1}";
 
         // clear resource production and reinstantiate new one
         foreach (Transform child in _selectedUnitResourcesProductionParent)

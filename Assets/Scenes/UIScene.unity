@@ -3282,7 +3282,7 @@ Transform:
   m_Children:
   - {fileID: 963194228}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &952817918
 GameObject:
@@ -3340,6 +3340,8 @@ MonoBehaviour:
   gameSettingsParameterPrefab: {fileID: 40904021247582060, guid: 4c2e36be457865645bc9bf1920ed9eb1, type: 3}
   sliderPrefab: {fileID: 8440325703701448871, guid: 95ea48fd5ec569e4a9f10efb44cb74de, type: 3}
   togglePrefab: {fileID: 5521780101766260884, guid: 6fd3ffb8ffb7c9541a944b3417a7a00a, type: 3}
+  selectedUnitMenuUpgradeButton: {fileID: 0}
+  selectedUnitMenuDestroyButton: {fileID: 0}
 --- !u!4 &952817921
 Transform:
   m_ObjectHideFlags: 0
@@ -4140,7 +4142,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 469056, guid: 28571dc7a9cf7834892025d98a1fbe6a, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 469056, guid: 28571dc7a9cf7834892025d98a1fbe6a, type: 3}
       propertyPath: m_LocalScale.x
