@@ -3342,6 +3342,8 @@ MonoBehaviour:
   togglePrefab: {fileID: 5521780101766260884, guid: 6fd3ffb8ffb7c9541a944b3417a7a00a, type: 3}
   selectedUnitMenuUpgradeButton: {fileID: 0}
   selectedUnitMenuDestroyButton: {fileID: 0}
+  inputMappingPrefab: {fileID: 3787222961907129388, guid: 05e48a32ea08ea940b1f2790da655c88, type: 3}
+  inputBindingPrefab: {fileID: 2324048272809426225, guid: aa224b7f7a667a346a991702bc02ed91, type: 3}
 --- !u!4 &952817921
 Transform:
   m_ObjectHideFlags: 0
@@ -3409,6 +3411,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameGlobalParameters: {fileID: 11400000, guid: c69810bb772c6114f8f0d3d19463a973, type: 2}
   gameSoundParameters: {fileID: 11400000, guid: 7370fd231d10f52459134e718b610ac1, type: 2}
+  gameInputParameters: {fileID: 11400000, guid: aa47147cb99812e48a14ff72a5830de5, type: 2}
   startPosition: {x: 0, y: 0, z: 0}
   gameIsPaused: 0
   gamePlayersParameters: {fileID: 11400000, guid: a5da65c55a05b0449b320070c66d2115, type: 2}

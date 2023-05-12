@@ -32,7 +32,7 @@ public class UnitManager : MonoBehaviour
     {
         if (Unit.Data.canBePromoted)
         {
-            Unit.CurrentPromotionLevel = Unit.CurrentXP / Unit.Data.xpPromotionThreshold;
+            Unit.CurrentPromotionLevel = Unit.CurrentXP / Unit.Data.XPPromotionThreshold;
 
             int numPromotionsNeeded = Unit.CurrentPromotionLevel - Unit.TimesPromoted;
             if (numPromotionsNeeded > 0) Debug.Log($"{Unit.Code} will be promoted {numPromotionsNeeded} times!");
@@ -142,7 +142,7 @@ public class UnitManager : MonoBehaviour
         
         if (targetHealth <= 0) 
         {
-            Unit.CurrentXP += um.Unit.Data.xpGivenOnDeath;
+            Unit.CurrentXP += um.Unit.Data.XPGivenOnDeath;
             if (Unit.CurrentXP > Unit.Data.maxXP)
             {
                 Unit.CurrentXP = Unit.Data.maxXP;

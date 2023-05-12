@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
@@ -44,6 +45,10 @@ public class UIManager : MonoBehaviour
     [Header("Units Selection")]
     public GameObject selectedUnitMenuUpgradeButton;
     public GameObject selectedUnitMenuDestroyButton;
+
+    [Header("Game Settings Panel")]
+    public GameObject inputMappingPrefab;
+    public GameObject inputBindingPrefab;
 
     private void Awake()
     {
@@ -446,6 +451,24 @@ public class UIManager : MonoBehaviour
                     });
                 }
             }
+            else if (field.FieldType.IsArray && field.FieldType.GetElementType() == typeof(InputBinding))
+            {
+                gEditor = Instantiate(inputMappingPrefab);
+                InputBinding[] bindings = (InputBinding[])field.GetValue(parameters);
+                for (int b = 0; b < bindings.Length; b++)
+                {
+                    GameObject g = GameObject.Instantiate(
+                        inputBindingPrefab, gEditor.transform);
+                    g.transform.Find("Text (TMP)").GetComponent<TMPro.TextMeshProUGUI>().text = bindings[b].displayName;
+                    g.transform.Find("Key/Text (TMP)").GetComponent<TMPro.TextMeshProUGUI>().text = bindings[b].key;
+                    _AddInputBindingButtonListener(
+                        g.transform.Find("Key").GetComponent<Button>(),
+                        gEditor.transform,
+                        (GameInputParameters)parameters,
+                        b
+                    );
+                }
+            }
             rtWrapper = gWrapper.GetComponent<RectTransform>();
             rtWrapper.anchoredPosition = new Vector2(0f, -i * fieldHeight);
             rtWrapper.sizeDelta = new Vector2(contentWidth, fieldHeight);
@@ -490,5 +513,40 @@ public class UIManager : MonoBehaviour
         else
             field.SetValue(parameters, change.value);
         EventManager.TriggerEvent($"UpdateGameParameter:{gameParameter}", change.value);
+    }
+
+    private void _AddInputBindingButtonListener(Button b, Transform inputBindingsParent, GameInputParameters inputParams, int bindingIndex)
+    {
+        b.onClick.AddListener(() =>
+        {
+            TMPro.TextMeshProUGUI keyText = b.transform.Find("Text (TMP)").GetComponent<TMPro.TextMeshProUGUI>();
+            StartCoroutine(_WaitingForInputBinding(inputParams, inputBindingsParent, bindingIndex, keyText));
+        });
+    }
+
+    private IEnumerator _WaitingForInputBinding(GameInputParameters inputParams, Transform inputBindingsParent, int bindingIndex, TMPro.TextMeshProUGUI keyText)
+    {
+        keyText.text = "<?>";
+
+        GameManager.instance.waitingForInput = true;
+        GameManager.instance.pressedKey = string.Empty;
+
+        yield return new WaitUntil(() => !GameManager.instance.waitingForInput);
+
+        string key = GameManager.instance.pressedKey;
+
+        // if input was already assign to another key,
+        // the previous assignment is removed
+        (int prevBindingIndex, InputBinding prevBinding) =
+            GameManager.instance.gameInputParameters.GetBindingForKey(key);
+        if (prevBinding != null)
+        {
+            prevBinding.key = string.Empty;
+            inputBindingsParent.GetChild(prevBindingIndex).Find("Key/Text (TMP)").GetComponent<TMPro.TextMeshProUGUI>().text = string.Empty;
+        }
+
+        inputParams.bindings[bindingIndex].key = key;
+
+        keyText.text = key;
     }
 }

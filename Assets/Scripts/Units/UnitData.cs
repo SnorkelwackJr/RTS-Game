@@ -17,8 +17,8 @@ public class UnitData : ScriptableObject
     public int attackDamage;
     public float attackRate;
     public bool canBePromoted;
-    public int xpGivenOnDeath;
-    public int xpPromotionThreshold;
+    public int XPGivenOnDeath;
+    public int XPPromotionThreshold;
     public int maxXP;
 
     [Header("General Sounds")]

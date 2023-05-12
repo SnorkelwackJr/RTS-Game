@@ -27,8 +27,8 @@ MonoBehaviour:
   attackDamage: 10
   attackRate: 2
   canBePromoted: 0
-  xpGivenOnDeath: 30
-  xpPromotionThreshold: 0
+  XPGivenOnDeath: 30
+  XPPromotionThreshold: 0
   maxXP: 0
   onSelectSound: {fileID: 0}
   ambientSound: {fileID: 0}
