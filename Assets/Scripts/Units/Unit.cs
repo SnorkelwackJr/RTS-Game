@@ -62,24 +62,21 @@ public class Unit
         // remove "is trigger" flag from box collider to allow
         // for collisions with units
         _transform.GetComponent<BoxCollider>().isTrigger = false;
-        
+
         // update game resources: remove the cost of the building
         // from each game resource
-        if (_owner == GameManager.instance.gamePlayersParameters.myPlayerId)
+        foreach (ResourceValue resource in _data.cost)
         {
-            foreach (ResourceValue resource in _data.Cost)
-            {
-                Globals.GAME_RESOURCES[resource.code].AddAmount(-resource.amount);
-            }
+            Globals.GAME_RESOURCES[_owner][resource.code].AddAmount(-resource.amount);
         }
 
-        // enable FOV when unit is placed
-        _transform.GetComponent<UnitManager>().EnableFOV();
+        if (_owner == GameManager.instance.gamePlayersParameters.myPlayerId)
+            _transform.GetComponent<UnitManager>().EnableFOV();
     }
 
     public bool CanBuy()
     {
-        return _data.CanBuy();
+        return _data.CanBuy(_owner);
     }
 
     public void Promote()
@@ -101,7 +98,7 @@ public class Unit
     {
         foreach (KeyValuePair<InGameResource, int> resource in _production)
         {
-            Globals.GAME_RESOURCES[resource.Key].AddAmount(resource.Value);
+            Globals.GAME_RESOURCES[_owner][resource.Key].AddAmount(resource.Value);
         }
     }
 

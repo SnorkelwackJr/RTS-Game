@@ -24,12 +24,9 @@ public class UnitData : ScriptableObject
     [Header("General Sounds")]
     public AudioClip onSelectSound;
 
-    public bool CanBuy()
+    public bool CanBuy(int owner)
     {
-        foreach (ResourceValue resource in cost)
-            if (Globals.GAME_RESOURCES[resource.code].Amount < resource.amount)
-                return false;
-        return true;
+        return Globals.CanBuy(owner, cost);
     }
 
     public List<ResourceValue> Cost { get { return cost; } }

@@ -18,8 +18,4 @@ MonoBehaviour:
     color: {r: 0.8773585, g: 0.037246335, b: 0.08337024, a: 0}
   - name: Team1
     color: {r: 0.14346743, g: 0.3110004, b: 0.9811321, a: 0}
-  - name: Team2
-    color: {r: 0.9529412, g: 0.45781767, b: 0, a: 0}
-  - name: Team3
-    color: {r: 0.025288569, g: 0.6886792, b: 0.016242431, a: 0}
-  myPlayerId: 2
+  myPlayerId: 0

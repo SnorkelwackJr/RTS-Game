@@ -13,7 +13,7 @@ public class BuildingPlacer : MonoBehaviour
         // instantiate headquarters at the beginning of the game
         _placedBuilding = new Building(
             GameManager.instance.gameGlobalParameters.initialBuilding,
-            0
+            GameManager.instance.gamePlayersParameters.myPlayerId
         );
         _placedBuilding.SetPosition(GameManager.instance.startPosition);
 

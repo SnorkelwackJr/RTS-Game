@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -38,6 +39,8 @@ public class GameManager : MonoBehaviour
         gameIsPaused = false;
 
         _GetStartPosition();
+
+        Globals.InitializeGameResources(gamePlayersParameters.players.Length);
     }
 
     private void Update()
@@ -96,4 +99,25 @@ public class GameManager : MonoBehaviour
     {
         startPosition = Utils.MiddleOfScreenPointToWorld();
     }
+
+#if UNITY_EDITOR
+    private void OnGUI()
+    {
+        GUILayout.BeginArea(new Rect(0f, 40f, 100f, 100f));
+
+        int newMyPlayerId = GUILayout.SelectionGrid(
+            gamePlayersParameters.myPlayerId,
+            gamePlayersParameters.players.Select((p, i) => i.ToString()).ToArray(),
+            gamePlayersParameters.players.Length
+        );
+
+        GUILayout.EndArea();
+        
+        if (newMyPlayerId != gamePlayersParameters.myPlayerId)
+        {
+            gamePlayersParameters.myPlayerId = newMyPlayerId;
+            EventManager.TriggerEvent("SetPlayer", newMyPlayerId);
+        }
+    }
+#endif
 }

@@ -32,6 +32,7 @@ public class UIManager : MonoBehaviour
     private Transform _selectedUnitResourcesProductionParent;
     private Transform _selectedUnitActionButtonsParent;
     private Unit _selectedUnit;
+    private int _myPlayerId;
     public GameObject gameSettingsPanel;
     public Transform gameSettingsMenusParent;
     public TMPro.TextMeshProUGUI gameSettingsContentName;
@@ -52,17 +53,6 @@ public class UIManager : MonoBehaviour
 
     private void Awake()
     {
-        // create texts for each in-game resource (gold, wood, stone...)
-        _resourceTexts = new Dictionary<InGameResource, TMPro.TextMeshProUGUI>();
-        foreach (KeyValuePair<InGameResource, GameResource> pair in Globals.GAME_RESOURCES)
-        {
-            GameObject display = Instantiate(gameResourceDisplayPrefab, resourcesUIParent);
-            display.name = pair.Key.ToString();
-            _resourceTexts[pair.Key] = display.transform.Find("Text").GetComponent<TMPro.TextMeshProUGUI>();
-            _SetResourceText(pair.Key, pair.Value.Amount);
-        }
-
-
         // create buttons for each building type
         _buildingPlacer = GetComponent<BuildingPlacer>();
         _buildingButtons = new Dictionary<string, Button>();
@@ -76,10 +66,6 @@ public class UIManager : MonoBehaviour
             _buildingButtons[data.code] = b;
 
             _AddBuildingButtonListener(b, i);
-            if (!Globals.BUILDING_DATA[i].CanBuy())
-            {
-                b.interactable = false;
-            }
 
             button.GetComponent<BuildingButton>().Initialize(Globals.BUILDING_DATA[i]);
         }
@@ -127,6 +113,23 @@ public class UIManager : MonoBehaviour
         _SetupGameSettingsPanel();
     }
 
+    private void Start()
+    {
+        _myPlayerId = GameManager.instance.gamePlayersParameters.myPlayerId;
+
+        // create texts for each in-game resource (gold, wood, stone...)
+        _resourceTexts = new Dictionary<InGameResource, TMPro.TextMeshProUGUI>();
+        foreach (KeyValuePair<InGameResource, GameResource> pair in Globals.GAME_RESOURCES[_myPlayerId])
+        {
+            GameObject display = GameObject.Instantiate(
+                gameResourceDisplayPrefab, resourcesUIParent);
+            display.name = pair.Key.ToString();
+            _resourceTexts[pair.Key] = display.transform.Find("Text").GetComponent<TMPro.TextMeshProUGUI>();
+            display.transform.Find("Icon").GetComponent<Image>().sprite = Resources.Load<Sprite>($"Textures/GameResources/{pair.Key}");
+            _SetResourceText(pair.Key, pair.Value.Amount);
+        }
+    }
+
     private void OnEnable()
     {
         EventManager.AddListener("UpdateResourceTexts", _OnUpdateResourceTexts);
@@ -135,6 +138,7 @@ public class UIManager : MonoBehaviour
         EventManager.AddListener("UnhoverBuildingButton", _OnUnhoverBuildingButton);
         EventManager.AddListener("SelectUnit", _OnSelectUnit);
         EventManager.AddListener("DeselectUnit", _OnDeselectUnit);
+        EventManager.AddListener("SetPlayer", _OnSetPlayer);
     }
 
     private void OnDisable()
@@ -145,6 +149,16 @@ public class UIManager : MonoBehaviour
         EventManager.RemoveListener("UnhoverBuildingButton", _OnUnhoverBuildingButton);
         EventManager.RemoveListener("SelectUnit", _OnSelectUnit);
         EventManager.RemoveListener("DeselectUnit", _OnDeselectUnit);
+        EventManager.RemoveListener("SetPlayer", _OnSetPlayer);
+    }
+
+    private void _OnSetPlayer(object data)
+    {
+        int playerId = (int)data;
+        _myPlayerId = playerId;
+        Color c = GameManager.instance.gamePlayersParameters.players[_myPlayerId].color;
+        c = Utils.LightenColor(c, 0.2f);
+        _OnUpdateResourceTexts();
     }
 
     private void _AddBuildingButtonListener(Button b, int i)
@@ -157,28 +171,16 @@ public class UIManager : MonoBehaviour
         _resourceTexts[resource].text = value.ToString();
     }
 
-    public void CheckBuildingButtons()
-    {
-        foreach (BuildingData data in Globals.BUILDING_DATA)
-        {
-            _buildingButtons[data.code].interactable = data.CanBuy();
-        }
-    }
-
     private void _OnUpdateResourceTexts()
     {
-        foreach (KeyValuePair<InGameResource, GameResource> pair in Globals.GAME_RESOURCES)
-        {
+        foreach (KeyValuePair<InGameResource, GameResource> pair in Globals.GAME_RESOURCES[_myPlayerId])
             _SetResourceText(pair.Key, pair.Value.Amount);
-        }
     }
 
-    public void _OnCheckBuildingButtons()
+    private void _OnCheckBuildingButtons()
     {
-        foreach(BuildingData data in Globals.BUILDING_DATA)
-        {
-            _buildingButtons[data.code].interactable = data.CanBuy();
-        }
+        foreach (BuildingData data in Globals.BUILDING_DATA)
+            _buildingButtons[data.code].interactable = data.CanBuy(_myPlayerId);
     }
 
     private void _OnHoverBuildingButton(object data)
@@ -208,7 +210,8 @@ public class UIManager : MonoBehaviour
             
         if (data.Cost.Count > 0)
         {
-            GameObject g; Transform t;
+            GameObject g; 
+            Transform t;
             foreach (ResourceValue resource in data.Cost)
             {
                 g = GameObject.Instantiate(gameResourceCostPrefab, _infoPanelResourcesCostParent);
@@ -220,8 +223,9 @@ public class UIManager : MonoBehaviour
                 // check to see if resource requirement is not
                 // currently met - in that case, turn the text into the "invalid"
                 // color
-                if (Globals.GAME_RESOURCES[resource.code].Amount < resource.amount)
+                if (Globals.GAME_RESOURCES[_myPlayerId][resource.code].Amount < resource.amount)
                     t.Find("Text").GetComponent<TMPro.TextMeshProUGUI>().color = new Color32(200, 0, 0, 255);
+                //t.SetParent(_infoPanelResourcesCostParent, false);
             }
         }
     }
