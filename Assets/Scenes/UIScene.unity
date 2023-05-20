@@ -3416,6 +3416,9 @@ MonoBehaviour:
   gameIsPaused: 0
   gamePlayersParameters: {fileID: 11400000, guid: a5da65c55a05b0449b320070c66d2115, type: 2}
   producingRate: 3
+  waitingForInput: 0
+  pressedKey: 
+  testScriptableObject: {fileID: 11400000, guid: fad72ccdd478ba14fb1efa6975bda52c, type: 2}
 --- !u!82 &952817926
 AudioSource:
   m_ObjectHideFlags: 0

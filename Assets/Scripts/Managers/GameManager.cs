@@ -21,12 +21,15 @@ public class GameManager : MonoBehaviour
     public List<Unit> ownedProducingUnits = new List<Unit>();
 
     [HideInInspector]
-    public float producingRate = 3f; // in seconds
+    public float producingRate = 0.5f; // in seconds
 
     [HideInInspector]
     public bool waitingForInput;
     [HideInInspector]
     public string pressedKey;
+
+    //TEST
+    public TestScriptableObject testScriptableObject;
 
     public void Start()
     {
@@ -41,6 +44,10 @@ public class GameManager : MonoBehaviour
         _GetStartPosition();
 
         Globals.InitializeGameResources(gamePlayersParameters.players.Length);
+
+        //TEST
+        //testScriptableObject.SaveToFile();
+        testScriptableObject.LoadFromFile();
     }
 
     private void Update()

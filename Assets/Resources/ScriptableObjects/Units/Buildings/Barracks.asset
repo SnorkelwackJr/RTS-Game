@@ -22,13 +22,15 @@ MonoBehaviour:
   - code: 0
     amount: 150
   skills:
+  - {fileID: 11400000, guid: a73f3e77cb045194b9336df3f618fffd, type: 2}
   - {fileID: 11400000, guid: cda60cc0c09b20248a60ffcc4b95e3b9, type: 2}
   canProduce: 
   attackRange: 0
   attackDamage: 0
   attackRate: 0
-  xpGivenOnDeath: 20
-  xpPromotionThreshold: 0
+  canBePromoted: 0
+  XPGivenOnDeath: 0
+  XPPromotionThreshold: 0
   maxXP: 0
   onSelectSound: {fileID: 0}
   ambientSound: {fileID: 8300000, guid: e07cd6707acdda844880806fc32f3b0d, type: 3}

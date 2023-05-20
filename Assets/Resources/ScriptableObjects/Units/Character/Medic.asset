@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 22d0a6ddd1937f244ab52ca4b497686a, type: 3}
-  m_Name: Soldier
+  m_Name: Medic
   m_EditorClassIdentifier: 
-  code: soldier
-  unitName: Soldier
-  description: A simple unit.
+  code: medic
+  unitName: Medic
+  description: The medic unit for the Scrappers.
   healthpoints: 30
   fieldOfView: 10
-  prefab: {fileID: 3725388289067207727, guid: d1ae686fe50f9f6409489a458bd3b74e, type: 3}
+  prefab: {fileID: 3725388289067207727, guid: c77d5c451ae92154fa501c90e55a9cbd, type: 3}
   cost:
   - code: 0
     amount: 30
