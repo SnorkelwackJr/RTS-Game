@@ -13,17 +13,21 @@ public class BinarySerializableData
         typeof(bool),
         typeof(string),
         typeof(InputBinding),
+        typeof(PlayerData),
     };
 
     public Dictionary<string, object> properties;
     
-    public BinarySerializableData(ScriptableObject obj)
+    public BinarySerializableData(ScriptableObject obj, List<string> fieldsToSerialize)
     {
         properties = new Dictionary<string, object>();
 
         Type T = obj.GetType();
         foreach (FieldInfo field in T.GetFields())
         {
+            if (!fieldsToSerialize.Contains(field.Name))
+                continue;
+
             object value;
             if (Serialize(field, obj, out value))
                 properties[field.Name] = value;
@@ -43,24 +47,39 @@ public class BinarySerializableData
             tested == reference ||
             tested.IsArray && tested.GetElementType() == reference;
     }
-    
-    public static bool Serialize(FieldInfo field, object obj, out object value)
+
+    public static Type GetSerializedType(FieldInfo field)
     {
         Type T = field.FieldType;
         if (_IsTypeSerializable(T))
+            return T;
+
+        object serialized;
+        _SerializeValue(T, T.IsValueType ? Activator.CreateInstance(T) : null, out serialized);
+        return serialized.GetType();
+    }
+
+    private static bool _SerializeValue(Type T, object inValue, out object outValue)
+    {
+        if (_IsTypeSerializable(T))
         {
-            value = field.GetValue(obj);
+            outValue = inValue;
             return true;
         }
         else if (_IsOfType(T, typeof(Color)))
         {
-            Color c = (Color) field.GetValue(obj);
-            value = new float[] { c.r, c.g, c.b, c.a };
+            Color c = (Color)inValue;
+            outValue = new float[] { c.r, c.g, c.b, c.a };
             return true;
         }
 
-        value = null;
+        outValue = null;
         return false;
+    }
+    
+    public static bool Serialize(FieldInfo field, object obj, out object value)
+    {
+        return _SerializeValue(field.FieldType, field.GetValue(obj), out value);
     }
 
     public static bool Deserialize(FieldInfo field, object data, out object value)
@@ -79,7 +98,6 @@ public class BinarySerializableData
         }
         
         value = null;
-        return false;
+        return false; 
     }
-
 }

@@ -12,6 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4f1565210cbc9e40b3cf10c99983d6f, type: 3}
   m_Name: Sound Parameters
   m_EditorClassIdentifier: 
+  _fieldsToSerialize:
+  - musicVolume
+  - sfxVolume
   _fieldsToShowInGame:
   - musicVolume
   - sfxVolume

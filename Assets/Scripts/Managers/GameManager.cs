@@ -45,9 +45,13 @@ public class GameManager : MonoBehaviour
 
         Globals.InitializeGameResources(gamePlayersParameters.players.Length);
 
-        //TEST
-        //testScriptableObject.SaveToFile();
-        testScriptableObject.LoadFromFile();
+        //Globals.NAV_MESH_SURFACE = GameObject.Find("Terrain").GetComponent<NavMeshSurface>();
+    
+        // enable/disable FOV depending on game parameters
+        //fov.SetActive(gameGlobalParameters.enableFOV);
+
+        _GetStartPosition();
+        gameIsPaused = false;
     }
 
     private void Update()
@@ -97,9 +101,9 @@ public class GameManager : MonoBehaviour
 
     private void OnApplicationQuit()
     {
-#if !UNITY_EDITOR
+//#if !UNITY_EDITOR FIXME
         DataHandler.SaveGameData();
-#endif
+//#endif FIXME
     }
 
     private void _GetStartPosition()
