@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45a3096e8dc422f46ae062638df66c07, type: 3}
   m_Name: Players Parameters
   m_EditorClassIdentifier: 
+  _fieldsToSerialize: []
   _fieldsToShowInGame: []
   players:
   - name: Team0

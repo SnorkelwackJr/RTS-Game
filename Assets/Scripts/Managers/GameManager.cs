@@ -28,9 +28,6 @@ public class GameManager : MonoBehaviour
     [HideInInspector]
     public string pressedKey;
 
-    //TEST
-    public TestScriptableObject testScriptableObject;
-
     public void Start()
     {
         instance = this;
