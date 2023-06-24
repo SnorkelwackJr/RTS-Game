@@ -3,7 +3,8 @@ using UnityEngine;
 
 public enum SkillType
 {
-    INSTANTIATE_CHARACTER
+    INSTANTIATE_CHARACTER,
+    INSTANTIATE_BUILDING
 }
 
 [CreateAssetMenu(fileName = "Skill", menuName = "Scriptable Objects/Skill", order = 4)]
@@ -39,6 +40,12 @@ public class SkillData : ScriptableObject
                     Character c = new Character(d, sourceUnitManager.Unit.Owner);
                     c.ComputeProduction();
                     c.Transform.GetComponent<NavMeshAgent>().Warp(instantiationPosition);
+                }
+                break;
+                case SkillType.INSTANTIATE_BUILDING:
+                {
+                    BuildingPlacer.instance.SelectPlacedBuilding(
+                        (BuildingData) unitReference);
                 }
                 break;
             default:

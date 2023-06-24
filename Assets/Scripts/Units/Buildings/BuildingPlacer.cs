@@ -1,8 +1,11 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class BuildingPlacer : MonoBehaviour
 {
+    public static BuildingPlacer instance;
+
     private Building _placedBuilding = null;
     private Ray _ray;
     private RaycastHit _raycastHit;
@@ -10,6 +13,8 @@ public class BuildingPlacer : MonoBehaviour
 
     private void Start()
     {
+        instance = this;
+        
         // instantiate headquarters at the beginning of the game
         _placedBuilding = new Building(
             GameManager.instance.gameGlobalParameters.initialBuilding,
@@ -62,31 +67,28 @@ public class BuildingPlacer : MonoBehaviour
         }
     }
 
-    public void SelectPlacedBuilding(int buildingDataIndex)
-    {
-        _PreparePlacedBuilding(buildingDataIndex);
-    }
-
     void _PreparePlacedBuilding(int buildingDataIndex)
     {
+        _PreparePlacedBuilding(Globals.BUILDING_DATA[buildingDataIndex]);
+    }
+    void _PreparePlacedBuilding(BuildingData buildingData)
+    {
         // destroy the previous "phantom" if there is one
-        if (_placedBuilding != null  && !_placedBuilding.IsFixed)
+        if (_placedBuilding != null && !_placedBuilding.IsFixed)
         {
             Destroy(_placedBuilding.Transform.gameObject);
         }
-
         Building building = new Building(
-            Globals.BUILDING_DATA[buildingDataIndex],
+            buildingData,
             GameManager.instance.gamePlayersParameters.myPlayerId
         );
-
         _placedBuilding = building;
         _lastPlacementPosition = Vector3.zero;
+        EventManager.TriggerEvent("PlaceBuildingOn");
     }
 
-    void _PlaceBuilding()
+    void _PlaceBuilding(bool canChain = true)
     {
-        _placedBuilding.ComputeProduction();
         _placedBuilding.Place();
         
         if (_placedBuilding.CanBuy())
@@ -100,7 +102,8 @@ public class BuildingPlacer : MonoBehaviour
         }
         EventManager.TriggerEvent("UpdateResourceTexts");
         EventManager.TriggerEvent("CheckBuildingButtons");
-        EventManager.TriggerEvent("PlaySoundByName", "onBuildingPlacedSound");
+        EventManager.TriggerEvent("UpdateResourceTexts");
+        EventManager.TriggerEvent("CheckBuildingButtons");
     }
 
     void _CancelPlacedBuilding()
@@ -132,5 +135,34 @@ public class BuildingPlacer : MonoBehaviour
                 return;
             }
         }
+    }
+
+    public void SelectPlacedBuilding(int buildingDataIndex)
+    {
+        _PreparePlacedBuilding(buildingDataIndex);
+    }
+    public void SelectPlacedBuilding(BuildingData buildingData)
+    {
+        _PreparePlacedBuilding(buildingData);
+    }
+
+    public void SpawnBuilding(BuildingData data, int owner, Vector3 position)
+    {
+        SpawnBuilding(data, owner, position, new List<ResourceValue>() { });
+    }
+    public void SpawnBuilding(BuildingData data, int owner, Vector3 position, List<ResourceValue> production)
+    {
+        // keep a reference to the previously placed building, if there is one
+        Building prevPlacedBuilding = _placedBuilding;
+
+        // instantiate building
+        _placedBuilding = new Building(data, owner, production);
+        _placedBuilding.SetPosition(position);
+        // finish up the placement
+        _PlaceBuilding(false);
+        _placedBuilding.SetConstructionRatio(1);
+
+        // restore the previous state
+        _placedBuilding = prevPlacedBuilding;
     }
 }

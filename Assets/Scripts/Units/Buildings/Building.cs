@@ -15,6 +15,10 @@ public class Building : Unit
     private BuildingPlacementState _placement;
     private List<Material> _materials;
 
+    private BuildingBT _bt;
+    private float _constructionRatio;
+    private bool _isAlive;
+
     public Building(BuildingData data, int owner) : this(data, owner, new List<ResourceValue>() { }) { }
     public Building(BuildingData data, int owner, List<ResourceValue> production) :
         base(data, owner, production)
@@ -28,6 +32,22 @@ public class Building : Unit
 
         _placement = BuildingPlacementState.VALID;
         SetMaterials();
+
+        _bt = _transform.GetComponent<BuildingBT>();
+        _bt.enabled = false;
+        _constructionRatio = 0f;
+        _isAlive = false;
+
+        if (data.ambientSound != null)
+        {
+            if (_buildingManager.ambientSource != null)
+            {
+                _buildingManager.ambientSource.clip = data.ambientSound;
+                _buildingManager.ambientSource.enabled = false;
+            }
+            else
+                Debug.LogWarning($"'{data.unitName}' prefab is missing an ambient audio source!");
+        }
     }
 
     public void SetMaterials() { SetMaterials(_placement); }
@@ -62,6 +82,30 @@ public class Building : Unit
         _placement = BuildingPlacementState.FIXED;
         // change building materials
         SetMaterials();
+        // change building construction ratio
+        SetConstructionRatio(0);
+    }
+
+    public void SetConstructionRatio(float constructionRatio)
+    {
+        if (_isAlive) return;
+        
+        _constructionRatio = constructionRatio;
+        if (_constructionRatio >= 1)
+            _SetAlive();
+    }
+
+    private void _SetAlive()
+    {
+        _isAlive = true;
+        _bt.enabled = true;
+        ComputeProduction();
+        
+        _buildingManager.ambientSource.enabled = true;
+        _buildingManager.ambientSource.Play();
+        EventManager.TriggerEvent("PlaySoundByName", "onBuildingPlacedSound");
+        
+        //Globals.UpdateNavMeshSurface();
     }
 
     public void CheckValidPlacement()
@@ -86,4 +130,6 @@ public class Building : Unit
             return -1;
         }
     }
+    public float ConstructionRatio { get => _constructionRatio; }
+    public override bool IsAlive { get => _isAlive; }
 }

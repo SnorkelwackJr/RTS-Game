@@ -239,8 +239,11 @@ public class UIManager : MonoBehaviour
     {
         Unit unit = (Unit) data;
         _AddSelectedUnitToUIList(unit);
-        _SetSelectedUnitMenu(unit);
-        _ShowSelectedUnitMenu(true);
+        if (unit.IsAlive) //FIXME?
+        {
+            _SetSelectedUnitMenu(unit);
+            _ShowSelectedUnitMenu(true);
+        }
     }
 
     private void _OnDeselectUnit(object data)

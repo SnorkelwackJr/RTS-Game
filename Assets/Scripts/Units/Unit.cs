@@ -69,7 +69,9 @@ public class Unit
         {
             Globals.GAME_RESOURCES[_owner][resource.code].AddAmount(-resource.amount);
         }
+        EventManager.TriggerEvent("UpdateResourceTexts");
 
+        // set FOV
         if (_owner == GameManager.instance.gamePlayersParameters.myPlayerId)
             _transform.GetComponent<UnitManager>().EnableFOV();
     }
@@ -145,4 +147,5 @@ public class Unit
     public int CurrentXP { get => _currentXP; set => _currentXP = value; }
     public int CurrentPromotionLevel { get => _currentPromotionLevel; set => _currentPromotionLevel = value; }
     public int TimesPromoted { get => _timesPromoted; set => _timesPromoted = value; }
+    public virtual bool IsAlive { get => true; }
 }

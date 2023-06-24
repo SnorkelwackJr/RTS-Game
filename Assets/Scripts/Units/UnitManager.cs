@@ -16,6 +16,8 @@ public class UnitManager : MonoBehaviour
 
     private bool _selected = false;
     public bool IsSelected { get => _selected; }
+    private int _selectIndex = -1;
+    public int SelectIndex { get => _selectIndex; }
 
     private void Awake()
     {
@@ -97,6 +99,7 @@ public class UnitManager : MonoBehaviour
         EventManager.TriggerEvent("DeselectUnit", Unit);
         
         _selected = false;
+        _selectIndex = -1;
     }
 
     private void _SelectUtil()
@@ -119,6 +122,7 @@ public class UnitManager : MonoBehaviour
         contextualSource.PlayOneShot(Unit.Data.onSelectSound);
 
         _selected = true;
+        _selectIndex = Globals.SELECTED_UNITS.Count - 1;
     }
 
     public void SetOwnerMaterial(int owner)

@@ -62,6 +62,31 @@ public class DebugConsole : MonoBehaviour
             GameManager.instance.gamePlayersParameters.myPlayerId = x;
             EventManager.TriggerEvent("SetPlayer", x);
         });
+        new DebugCommand<string, int>(
+            "instant_chars",
+            "Instantiates multiple instances of a character unit (by reference code), using a Poisson disc sampling for random positioning.",
+            "instant_chars <code> <amount>", (code, amount) =>
+        {
+            CharacterData d = Globals.CHARACTER_DATA[code];
+            int owner = GameManager.instance.gamePlayersParameters.myPlayerId;
+            List<Vector3> positions = Utils.SamplePositions(
+              amount, 1.5f, Vector2.one * 15,
+              Utils.MiddleOfScreenPointToWorld());
+            foreach (Vector3 pos in positions)
+            {
+                Character c = new Character(d, owner);
+                c.ComputeProduction();
+                c.Transform.GetComponent<UnityEngine.AI.NavMeshAgent>().Warp(pos);
+            }
+        });
+        new DebugCommand<int>(
+            "unit_formation",
+            "Sets the unit formation type (by index).",
+            "unit_formation <formation_index>", (x) =>
+        {
+            Globals.UNIT_FORMATION_TYPE = (UnitFormationType)x;
+            //FOR UI: EventManager.TriggerEvent("UpdateUnitFormationType"); 
+        });
 
         _displayType = DisplayType.None;
     }
