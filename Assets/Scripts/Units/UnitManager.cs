@@ -97,6 +97,9 @@ public class UnitManager : MonoBehaviour
         _healthbar = null;
 
         EventManager.TriggerEvent("DeselectUnit", Unit);
+
+        //FIXME stop following unit with camera
+        //CameraController.instance.followTransform = null;
         
         _selected = false;
         _selectIndex = -1;
@@ -106,17 +109,11 @@ public class UnitManager : MonoBehaviour
     {
         Globals.SELECTED_UNITS.Add(this);
         selectionCircle.SetActive(true);
-        /*if(_healthbar == null)
-        {
-            _healthbar = GameObject.Instantiate(Resources.Load("Prefabs/UI/Healthbar")) as GameObject;
-            _healthbar.transform.SetParent(_canvas);
-            Healthbar h = _healthbar.GetComponent<Healthbar>();
-            Rect boundingBox = Utils.GetBoundingBoxOnScreen(transform.Find("Mesh").GetComponent<Renderer>().bounds, Camera.main);
-            h.Initialize(transform, boundingBox.height);
-            h.SetPosition();
-        }*/
 
         EventManager.TriggerEvent("SelectUnit", Unit);
+
+        //FIXME follow unit with camera
+        //CameraController.instance.followTransform = transform;
 
         // play sound
         contextualSource.PlayOneShot(Unit.Data.onSelectSound);

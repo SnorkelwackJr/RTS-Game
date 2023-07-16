@@ -239,11 +239,13 @@ public class UIManager : MonoBehaviour
     {
         Unit unit = (Unit) data;
         _AddSelectedUnitToUIList(unit);
-        if (unit.IsAlive) //FIXME?
+        if (true) //FIXME change to unit.IsAlive bool
         {
+            //Debug.Log(unit.Code + " is alive");
             _SetSelectedUnitMenu(unit);
             _ShowSelectedUnitMenu(true);
         }
+        //Debug.Log(unit.Code + " is not alive");
     }
 
     private void _OnDeselectUnit(object data)

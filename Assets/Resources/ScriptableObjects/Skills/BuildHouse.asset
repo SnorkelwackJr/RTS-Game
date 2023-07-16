@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02f3a72e8d7140746a94351ec3deebd6, type: 3}
   m_Name: BuildHouse
   m_EditorClassIdentifier: 
-  code: 
-  skillName: 
-  description: 
-  type: 0
-  unitReference: {fileID: 0}
+  code: build_house
+  skillName: Build a house
+  description: Builds a house.
+  type: 1
+  unitReference: {fileID: 11400000, guid: 4830c15900727b44a969c56cd1e56942, type: 2}
   castTime: 0
   cooldown: 0
   sprite: {fileID: 0}

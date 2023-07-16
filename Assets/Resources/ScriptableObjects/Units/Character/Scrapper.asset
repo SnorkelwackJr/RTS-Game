@@ -21,7 +21,8 @@ MonoBehaviour:
   cost:
   - code: 0
     amount: 30
-  skills: []
+  skills:
+  - {fileID: 11400000, guid: 4914bc91be94bad4d8f4d949a1e344a1, type: 2}
   canProduce: 
   attackRange: 10
   attackDamage: 5
