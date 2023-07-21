@@ -18,6 +18,7 @@ public class CheckTargetIsMine: Node
         if (um == null)
         {
             _state = NodeState.FAILURE;
+            Debug.Log("UnitManager in CheckTargetIsMine returned null");
             return _state;
         }
         _state = um.Unit.Owner == _myPlayerId ? NodeState.SUCCESS : NodeState.FAILURE;

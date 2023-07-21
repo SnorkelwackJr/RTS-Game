@@ -25,7 +25,7 @@ MonoBehaviour:
   canProduce: 
   attackRange: 10
   attackDamage: 5
-  attackRate: 2
+  attackRate: 1
   canBePromoted: 1
   XPGivenOnDeath: 5
   XPPromotionThreshold: 10
@@ -33,3 +33,6 @@ MonoBehaviour:
   onSelectSound: {fileID: 8300000, guid: d9e10fa9dd2ca5f4e996e1b832f8ff04, type: 3}
   onMoveValidSound: {fileID: 0}
   onMoveInvalidSound: {fileID: 0}
+  buildRange: 0
+  buildPower: 0
+  buildRate: 0

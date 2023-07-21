@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 public class BuildingPlacer : MonoBehaviour
 {
     public static BuildingPlacer instance;
+    private UnitManager _builderManager;
 
     private Building _placedBuilding = null;
     private Ray _ray;
@@ -89,21 +90,35 @@ public class BuildingPlacer : MonoBehaviour
 
     void _PlaceBuilding(bool canChain = true)
     {
-        _placedBuilding.Place();
-        
-        if (_placedBuilding.CanBuy())
+        // if there is a worker assigned to this construction,
+        // warn its behaviour tree and deselect the building
+        if (_builderManager != null)
         {
-            _PreparePlacedBuilding(_placedBuilding.DataIndex);
+            _builderManager.Select();
+            _builderManager
+                .GetComponent<CharacterBT>()
+                .StartBuildingConstruction(_placedBuilding.Transform);
+            _builderManager = null;
+
+            _placedBuilding.Place();
+
+            EventManager.TriggerEvent("PlaceBuildingOff");
+            _placedBuilding = null;
         }
         else
         {
-            _placedBuilding = null;
-            Globals.CURRENT_PLACED_BUILDING = null;
+            _placedBuilding.Place();
+            if (canChain)
+            {
+                if (_placedBuilding.CanBuy())
+                    _PreparePlacedBuilding(_placedBuilding.DataIndex);
+                else
+                {
+                    EventManager.TriggerEvent("PlaceBuildingOff");
+                    _placedBuilding = null;
+                }
+            }
         }
-        EventManager.TriggerEvent("UpdateResourceTexts");
-        EventManager.TriggerEvent("CheckBuildingButtons");
-        EventManager.TriggerEvent("UpdateResourceTexts");
-        EventManager.TriggerEvent("CheckBuildingButtons");
     }
 
     void _CancelPlacedBuilding()
@@ -141,8 +156,9 @@ public class BuildingPlacer : MonoBehaviour
     {
         _PreparePlacedBuilding(buildingDataIndex);
     }
-    public void SelectPlacedBuilding(BuildingData buildingData)
+    public void SelectPlacedBuilding(BuildingData buildingData, UnitManager builderManager = null)
     {
+        _builderManager = builderManager;
         _PreparePlacedBuilding(buildingData);
     }
 

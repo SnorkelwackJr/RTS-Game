@@ -42,10 +42,13 @@ public class SkillData : ScriptableObject
                     c.Transform.GetComponent<NavMeshAgent>().Warp(instantiationPosition);
                 }
                 break;
-                case SkillType.INSTANTIATE_BUILDING:
+            case SkillType.INSTANTIATE_BUILDING:
                 {
+                    UnitManager sourceUnitManager = source.GetComponent<UnitManager>();
+                    if (sourceUnitManager == null)
+                        return;
                     BuildingPlacer.instance.SelectPlacedBuilding(
-                        (BuildingData) unitReference);
+                        (BuildingData) unitReference, sourceUnitManager);
                 }
                 break;
             default:

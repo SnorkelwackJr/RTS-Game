@@ -84,6 +84,8 @@ public class Building : Unit
         SetMaterials();
         // change building construction ratio
         SetConstructionRatio(0);
+
+        Globals.CURRENT_PLACED_BUILDING = null;
     }
 
     public void SetConstructionRatio(float constructionRatio)
@@ -91,6 +93,7 @@ public class Building : Unit
         if (_isAlive) return;
         
         _constructionRatio = constructionRatio;
+        Debug.Log("Construction at: " + (_constructionRatio * 100) + "%");
         if (_constructionRatio >= 1)
             _SetAlive();
     }

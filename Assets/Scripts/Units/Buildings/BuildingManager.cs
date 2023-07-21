@@ -52,4 +52,11 @@ public class BuildingManager : UnitManager
     {
         return _building.IsFixed;
     }
+
+    public bool Build(int buildPower)
+    {
+        _building.SetConstructionRatio(
+          _building.ConstructionRatio + (buildPower / 10f));
+        return _building.IsAlive;
+    }
 }

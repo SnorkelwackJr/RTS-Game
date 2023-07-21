@@ -8,7 +8,7 @@ public class UnitManager : MonoBehaviour
     public AudioSource contextualSource;
 
     private Transform _canvas;
-    private GameObject _healthbar;
+    protected GameObject healthbar;
     protected BoxCollider _collider;
     public GameObject fov;
     public virtual Unit Unit { get; set; }
@@ -93,8 +93,8 @@ public class UnitManager : MonoBehaviour
     {
         Globals.SELECTED_UNITS.Remove(this);
         selectionCircle.SetActive(false);
-        Destroy(_healthbar);
-        _healthbar = null;
+        Destroy(healthbar);
+        healthbar = null;
 
         EventManager.TriggerEvent("DeselectUnit", Unit);
 
@@ -107,10 +107,14 @@ public class UnitManager : MonoBehaviour
 
     private void _SelectUtil()
     {
-        Globals.SELECTED_UNITS.Add(this);
-        selectionCircle.SetActive(true);
+        // abort if not active
+        if (!IsActive()) return;
+        // abort if already selected
+        if (Globals.SELECTED_UNITS.Contains(this)) return;
 
+        Globals.SELECTED_UNITS.Add(this);
         EventManager.TriggerEvent("SelectUnit", Unit);
+        selectionCircle.SetActive(true);
 
         //FIXME follow unit with camera
         //CameraController.instance.followTransform = transform;
@@ -120,6 +124,7 @@ public class UnitManager : MonoBehaviour
 
         _selected = true;
         _selectIndex = Globals.SELECTED_UNITS.Count - 1;
+        Debug.Log("SelectIndex is: " + _selectIndex);
     }
 
     public void SetOwnerMaterial(int owner)

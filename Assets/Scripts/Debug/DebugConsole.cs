@@ -87,6 +87,16 @@ public class DebugConsole : MonoBehaviour
             Globals.UNIT_FORMATION_TYPE = (UnitFormationType)x;
             //FOR UI: EventManager.TriggerEvent("UpdateUnitFormationType"); 
         });
+        new DebugCommand<float>(
+          "set_construction_ratio",
+          "Sets the selected unit construction ratio.",
+          "set_construction_ratio <ratio>", (x) =>
+        {
+            if (Globals.SELECTED_UNITS.Count == 0) return;
+            Building b = (Building) Globals.SELECTED_UNITS[0].GetComponent<BuildingManager>().Unit;
+            if (b == null) return;
+            b.SetConstructionRatio(x);
+        });
 
         _displayType = DisplayType.None;
     }
@@ -104,6 +114,7 @@ public class DebugConsole : MonoBehaviour
     private void _OnShowDebugConsole()
     {
         _showConsole = true;
+        EventManager.TriggerEvent("PauseGame");
     }
 
     private void OnGUI()
@@ -147,7 +158,10 @@ public class DebugConsole : MonoBehaviour
                 if (e.keyCode == KeyCode.Return && _consoleInput.Length > 0)
                     _OnReturn();
                 else if (e.keyCode == KeyCode.Escape)
+                {
                     _showConsole = false;
+                    EventManager.TriggerEvent("ResumeGame");
+                }
                 else if (e.keyCode == KeyCode.Tab)
                     _displayType = DisplayType.Autocomplete;
             }
