@@ -6,8 +6,6 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    public Transform buildingMenu;
-    public GameObject buildingButtonPrefab;
     public Transform resourcesUIParent;
     public GameObject gameResourceDisplayPrefab;
     public GameObject gameResourceCostPrefab;
@@ -20,7 +18,6 @@ public class UIManager : MonoBehaviour
     public GameObject buildingMenuObject;
 
     private BuildingPlacer _buildingPlacer;
-    private Dictionary<string, Button> _buildingButtons;
     private TMPro.TextMeshProUGUI _infoPanelTitleText;
     private TMPro.TextMeshProUGUI _infoPanelDescriptionText;
     private Transform _infoPanelResourcesCostParent;
@@ -53,23 +50,6 @@ public class UIManager : MonoBehaviour
 
     private void Awake()
     {
-        // create buttons for each building type
-        _buildingPlacer = GetComponent<BuildingPlacer>();
-        _buildingButtons = new Dictionary<string, Button>();
-        for (int i = 0; i < Globals.BUILDING_DATA.Length; i++)
-        {
-            BuildingData data = Globals.BUILDING_DATA[i];
-            GameObject button = Instantiate(buildingButtonPrefab, buildingMenu);
-            button.name = data.unitName;
-            button.transform.Find("Text (TMP)").GetComponent<TMPro.TextMeshProUGUI>().text = data.unitName;
-            Button b = button.GetComponent<Button>();
-            _buildingButtons[data.code] = b;
-
-            _AddBuildingButtonListener(b, i);
-
-            button.GetComponent<BuildingButton>().Initialize(Globals.BUILDING_DATA[i]);
-        }
-
         Transform infoPanelTransform = infoPanel.transform;
         _infoPanelTitleText = infoPanelTransform.Find("Content/Title").GetComponent<TMPro.TextMeshProUGUI>();
         _infoPanelDescriptionText = infoPanelTransform.Find("Content/Description").GetComponent<TMPro.TextMeshProUGUI>();
@@ -133,23 +113,21 @@ public class UIManager : MonoBehaviour
     private void OnEnable()
     {
         EventManager.AddListener("UpdateResourceTexts", _OnUpdateResourceTexts);
-        EventManager.AddListener("CheckBuildingButtons", _OnCheckBuildingButtons);
-        EventManager.AddListener("HoverBuildingButton", _OnHoverBuildingButton);
-        EventManager.AddListener("UnhoverBuildingButton", _OnUnhoverBuildingButton);
         EventManager.AddListener("SelectUnit", _OnSelectUnit);
         EventManager.AddListener("DeselectUnit", _OnDeselectUnit);
         EventManager.AddListener("SetPlayer", _OnSetPlayer);
+        EventManager.AddListener("HoverSkillButton", _OnHoverSkillButton);
+        EventManager.AddListener("UnhoverSkillButton", _OnUnhoverSkillButton);
     }
 
     private void OnDisable()
     {
         EventManager.RemoveListener("UpdateResourceTexts", _OnUpdateResourceTexts);
-        EventManager.RemoveListener("CheckBuildingButtons", _OnCheckBuildingButtons);
-        EventManager.RemoveListener("HoverBuildingButton", _OnHoverBuildingButton);
-        EventManager.RemoveListener("UnhoverBuildingButton", _OnUnhoverBuildingButton);
         EventManager.RemoveListener("SelectUnit", _OnSelectUnit);
         EventManager.RemoveListener("DeselectUnit", _OnDeselectUnit);
         EventManager.RemoveListener("SetPlayer", _OnSetPlayer);
+        EventManager.RemoveListener("HoverSkillButton", _OnHoverSkillButton);
+        EventManager.RemoveListener("UnhoverSkillButton", _OnUnhoverSkillButton);
     }
 
     private void _OnSetPlayer(object data)
@@ -159,11 +137,6 @@ public class UIManager : MonoBehaviour
         Color c = GameManager.instance.gamePlayersParameters.players[_myPlayerId].color;
         c = Utils.LightenColor(c, 0.2f);
         _OnUpdateResourceTexts();
-    }
-
-    private void _AddBuildingButtonListener(Button b, int i)
-    {
-        b.onClick.AddListener(() => _buildingPlacer.SelectPlacedBuilding(i));
     }
 
     private void _SetResourceText(InGameResource resource, int value)
@@ -177,30 +150,15 @@ public class UIManager : MonoBehaviour
             _SetResourceText(pair.Key, pair.Value.Amount);
     }
 
-    private void _OnCheckBuildingButtons()
-    {
-        foreach (BuildingData data in Globals.BUILDING_DATA)
-            _buildingButtons[data.code].interactable = data.CanBuy(_myPlayerId);
-    }
-
-    private void _OnHoverBuildingButton(object data)
-    {
-        SetInfoPanel((UnitData) data);
-        ShowInfoPanel(true);
-    }
-
-    private void _OnUnhoverBuildingButton()
-    {
-        ShowInfoPanel(false);
-    }
-
     public void SetInfoPanel(UnitData data)
     {
+        SetInfoPanel(data.unitName, data.description, data.cost);
+    }
+    public void SetInfoPanel(string title, string description, List<ResourceValue> resourceCosts)
+    {
         // update texts
-        if (data.unitName != "")
-            _infoPanelTitleText.text = data.unitName;
-        if (data.description != "")
-            _infoPanelDescriptionText.text = data.description;
+        _infoPanelTitleText.text = title;
+        _infoPanelDescriptionText.text = description;
         
         // clear resource costs and reinstantiate new ones
         foreach (Transform child in _infoPanelResourcesCostParent)
@@ -208,11 +166,11 @@ public class UIManager : MonoBehaviour
             Destroy(child.gameObject);
         }
             
-        if (data.Cost.Count > 0)
+        if (resourceCosts.Count > 0)
         {
             GameObject g; 
             Transform t;
-            foreach (ResourceValue resource in data.Cost)
+            foreach (ResourceValue resource in resourceCosts)
             {
                 g = GameObject.Instantiate(gameResourceCostPrefab, _infoPanelResourcesCostParent);
                 t = g.transform;
@@ -353,6 +311,7 @@ public class UIManager : MonoBehaviour
                 t.Find("Text").GetComponent<TMPro.TextMeshProUGUI>().text =
                     unit.SkillManagers[i].skill.skillName;
                 _AddUnitSkillButtonListener(b, i);
+                g.GetComponent<SkillButton>().Initialize(unit.SkillManagers[i].skill);
             }
         }
 
@@ -557,5 +516,27 @@ public class UIManager : MonoBehaviour
         inputParams.bindings[bindingIndex].key = key;
 
         keyText.text = key;
+    }
+
+    private void _OnHoverSkillButton(object data)
+    {
+        SkillData s = (SkillData)data;
+        string title = s.skillName;
+        string desc = s.description;
+        List<ResourceValue> cost = new List<ResourceValue>();
+        if (
+            s.type == SkillType.INSTANTIATE_CHARACTER ||
+            s.type == SkillType.INSTANTIATE_BUILDING
+        )
+        {
+            cost = s.unitReference.cost;
+        }
+        SetInfoPanel(title, desc, cost);
+        ShowInfoPanel(true);
+    }
+
+    private void _OnUnhoverSkillButton()
+    {
+        ShowInfoPanel(false);
     }
 }

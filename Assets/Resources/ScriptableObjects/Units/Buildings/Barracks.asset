@@ -33,4 +33,4 @@ MonoBehaviour:
   XPPromotionThreshold: 0
   maxXP: 0
   onSelectSound: {fileID: 0}
-  ambientSound: {fileID: 8300000, guid: e07cd6707acdda844880806fc32f3b0d, type: 3}
+  ambientSound: {fileID: 0}

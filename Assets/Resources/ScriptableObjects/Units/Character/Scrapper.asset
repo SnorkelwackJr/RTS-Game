@@ -23,6 +23,9 @@ MonoBehaviour:
     amount: 30
   skills:
   - {fileID: 11400000, guid: 4914bc91be94bad4d8f4d949a1e344a1, type: 2}
+  - {fileID: 11400000, guid: c04733c86c7c8e54490afc1733d3253e, type: 2}
+  - {fileID: 11400000, guid: c6c7b6cf7aead974687e113fdd17d621, type: 2}
+  - {fileID: 11400000, guid: dd3afc86d1c78fb47827b0527122607d, type: 2}
   canProduce: 
   attackRange: 10
   attackDamage: 5
