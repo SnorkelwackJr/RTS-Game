@@ -3483,8 +3483,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2332c8cd352e294084b90e77c33b383, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buildingMenu: {fileID: 2126734513}
-  buildingButtonPrefab: {fileID: 3954454559193954449, guid: 5719b6d723806f449883d2d8fccbea7e, type: 3}
   resourcesUIParent: {fileID: 319265096}
   gameResourceDisplayPrefab: {fileID: 8826632905454296768, guid: 21caf21b233994a4d92bf1b7d1ebc103, type: 3}
   gameResourceCostPrefab: {fileID: 6271813068246492710, guid: 33c035b0a167caf439753658d73a88e4, type: 3}

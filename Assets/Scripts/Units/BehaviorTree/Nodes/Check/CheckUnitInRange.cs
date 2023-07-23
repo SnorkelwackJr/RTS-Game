@@ -6,6 +6,8 @@ public class CheckUnitInRange : Node
 {
     UnitManager _manager;
     float _range;
+    Transform _lastTarget;
+    float _targetSize;
 
     public CheckUnitInRange(UnitManager manager, bool checkAttack) : base()
     {
@@ -13,6 +15,7 @@ public class CheckUnitInRange : Node
         _range = checkAttack
             ? _manager.Unit.AttackRange
             : ((CharacterData)_manager.Unit.Data).buildRange;
+        _lastTarget = null;
     }
 
     public override NodeState Evaluate()
@@ -25,6 +28,15 @@ public class CheckUnitInRange : Node
         }
 
         Transform target = (Transform)currentTarget;
+        if (target != _lastTarget)
+        {
+            Vector3 s = target
+                .Find("Mesh")
+                .GetComponent<MeshFilter>()
+                .sharedMesh.bounds.size / 2;
+            _targetSize = Mathf.Max(s.x, s.z);
+            _lastTarget = target;
+        }
 
         // (in case the target object is gone - for example it died
         // and we haven't cleared it from the data yet)
@@ -36,11 +48,8 @@ public class CheckUnitInRange : Node
             return _state;
         }
 
-        Vector3 s = target.Find("Mesh").localScale;
-        float targetSize = Mathf.Max(s.x, s.z) * 1.2f;
-
         float d = Vector3.Distance(_manager.transform.position, target.position);
-        bool isInRange = (d - targetSize) <= _range;
+        bool isInRange = (d - _targetSize) <= _range;
         _state = isInRange ? NodeState.SUCCESS : NodeState.FAILURE;
         return _state;
     }

@@ -17,6 +17,7 @@ public class Unit
     protected int _currentXP;
     protected int _currentPromotionLevel;
     protected int _timesPromoted;
+    private bool _isAlive;
 
     public Unit(UnitData data, int owner) : this(data, owner, new List<ResourceValue>() { }) { }
     public Unit(UnitData data, int owner, List<ResourceValue> production)
@@ -147,5 +148,5 @@ public class Unit
     public int CurrentXP { get => _currentXP; set => _currentXP = value; }
     public int CurrentPromotionLevel { get => _currentPromotionLevel; set => _currentPromotionLevel = value; }
     public int TimesPromoted { get => _timesPromoted; set => _timesPromoted = value; }
-    public virtual bool IsAlive { get => true; }
+    public virtual bool IsAlive { get => true; set { _isAlive = value; } }
 }

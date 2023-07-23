@@ -107,10 +107,8 @@ public class UnitManager : MonoBehaviour
 
     private void _SelectUtil()
     {
-        // abort if not active
-        if (!IsActive()) return;
-        // abort if already selected
-        if (Globals.SELECTED_UNITS.Contains(this)) return;
+        // abort if not active or already selected
+        if (!IsActive() || Globals.SELECTED_UNITS.Contains(this)) return;
 
         Globals.SELECTED_UNITS.Add(this);
         EventManager.TriggerEvent("SelectUnit", Unit);

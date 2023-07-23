@@ -19,24 +19,33 @@ public class Building : Unit
     private float _constructionRatio;
     private bool _isAlive;
 
+    private MeshFilter _rendererMesh;
+    private Mesh[] _constructionMeshes;
+
     public Building(BuildingData data, int owner) : this(data, owner, new List<ResourceValue>() { }) { }
     public Building(BuildingData data, int owner, List<ResourceValue> production) :
         base(data, owner, production)
     {
         _buildingManager = _transform.GetComponent<BuildingManager>();
+        _bt = _transform.GetComponent<BuildingBT>();
+        _bt.enabled = false;
+
+        _constructionRatio = 0f;
+        _isAlive = false;
+        
+        Transform mesh = _transform.Find("Mesh");
+        
         _materials = new List<Material>();
         foreach (Material material in _transform.GetComponent<Renderer>().materials)
         {
             _materials.Add(new Material(material));
         }
 
-        _placement = BuildingPlacementState.VALID;
         SetMaterials();
+        _placement = BuildingPlacementState.VALID;
 
-        _bt = _transform.GetComponent<BuildingBT>();
-        _bt.enabled = false;
-        _constructionRatio = 0f;
-        _isAlive = false;
+        _rendererMesh = mesh.GetComponent<MeshFilter>();
+        _constructionMeshes = data.constructionMeshes;
 
         if (data.ambientSound != null)
         {
@@ -94,6 +103,13 @@ public class Building : Unit
         
         _constructionRatio = constructionRatio;
         Debug.Log("Construction at: " + (_constructionRatio * 100) + "%");
+
+        int meshIndex = Mathf.Max(
+            0,
+            (int)(_constructionMeshes.Length * constructionRatio) - 1);
+        Mesh m = _constructionMeshes[meshIndex];
+        _rendererMesh.sharedMesh = m;
+        
         if (_constructionRatio >= 1)
             _SetAlive();
     }
@@ -134,5 +150,5 @@ public class Building : Unit
         }
     }
     public float ConstructionRatio { get => _constructionRatio; }
-    public override bool IsAlive { get => _isAlive; }
+    public override bool IsAlive { get => _isAlive; set { _isAlive = value; } }
 }

@@ -21,6 +21,7 @@ public class BuildingPlacer : MonoBehaviour
             GameManager.instance.gameGlobalParameters.initialBuilding,
             GameManager.instance.gamePlayersParameters.myPlayerId
         );
+        _placedBuilding.IsAlive = true;
         _placedBuilding.SetPosition(GameManager.instance.startPosition);
 
         // link the data into the manager

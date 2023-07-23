@@ -34,3 +34,7 @@ MonoBehaviour:
   maxXP: 0
   onSelectSound: {fileID: 0}
   ambientSound: {fileID: 0}
+  constructionMeshes:
+  - {fileID: -5495902117074765545, guid: 73a81761c53c9a240aac484d2922477f, type: 3}
+  - {fileID: -5495902117074765545, guid: 1159cb9fe264a1e4798110d450adc618, type: 3}
+  - {fileID: -5495902117074765545, guid: feb20e0d2632a3446a26b7da41c20624, type: 3}
