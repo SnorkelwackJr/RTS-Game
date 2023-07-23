@@ -16,11 +16,13 @@ public class Building : Unit
     private List<Material> _materials;
 
     private BuildingBT _bt;
-    private float _constructionRatio;
+    private int _constructionHP;
     private bool _isAlive;
 
     private MeshFilter _rendererMesh;
     private Mesh[] _constructionMeshes;
+
+    private AudioClip _ambientSound;
 
     public Building(BuildingData data, int owner) : this(data, owner, new List<ResourceValue>() { }) { }
     public Building(BuildingData data, int owner, List<ResourceValue> production) :
@@ -30,7 +32,7 @@ public class Building : Unit
         _bt = _transform.GetComponent<BuildingBT>();
         _bt.enabled = false;
 
-        _constructionRatio = 0f;
+        _constructionHP = 0;
         _isAlive = false;
         
         Transform mesh = _transform.Find("Mesh");
@@ -40,22 +42,28 @@ public class Building : Unit
         {
             _materials.Add(new Material(material));
         }
-
         SetMaterials();
         _placement = BuildingPlacementState.VALID;
 
         _rendererMesh = mesh.GetComponent<MeshFilter>();
         _constructionMeshes = data.constructionMeshes;
 
-        if (data.ambientSound != null)
+        if (_buildingManager.ambientSource != null)
         {
-            if (_buildingManager.ambientSource != null)
+            if (_owner == GameManager.instance.gamePlayersParameters.myPlayerId)
             {
-                _buildingManager.ambientSource.clip = data.ambientSound;
-                _buildingManager.ambientSource.enabled = false;
+                _buildingManager.ambientSource.clip =
+                    GameManager.instance.gameSoundParameters.constructionSiteSound;
+                _ambientSound = data.ambientSound;
             }
             else
-                Debug.LogWarning($"'{data.unitName}' prefab is missing an ambient audio source!");
+            {
+                _buildingManager.ambientSource.enabled = false;
+            }
+        }
+        else
+        {
+            Debug.LogWarning($"'{data.unitName}' prefab is missing an ambient audio source!");
         }
     }
 
@@ -92,25 +100,26 @@ public class Building : Unit
         // change building materials
         SetMaterials();
         // change building construction ratio
-        SetConstructionRatio(0);
+        SetConstructionHP(0);
 
         Globals.CURRENT_PLACED_BUILDING = null;
     }
 
-    public void SetConstructionRatio(float constructionRatio)
+    public void SetConstructionHP(int constructionHP)
     {
         if (_isAlive) return;
-        
-        _constructionRatio = constructionRatio;
-        Debug.Log("Construction at: " + (_constructionRatio * 100) + "%");
 
-        int meshIndex = Mathf.Max(
-            0,
-            (int)(_constructionMeshes.Length * constructionRatio) - 1);
-        Mesh m = _constructionMeshes[meshIndex];
-        _rendererMesh.sharedMesh = m;
-        
-        if (_constructionRatio >= 1)
+        _constructionHP = constructionHP;
+        float constructionRatio = _constructionHP / (float) MaxHP;
+        Debug.Log("Construction is at " + (constructionRatio * 100) + "%");
+
+        // int meshIndex = Mathf.Max(
+        //     0,
+        //     (int)(_constructionMeshes.Length * constructionRatio) - 1);
+        // Mesh m = _constructionMeshes[meshIndex];
+        // _rendererMesh.sharedMesh = m;
+
+        if (constructionRatio >= 1)
             _SetAlive();
     }
 
@@ -149,6 +158,6 @@ public class Building : Unit
             return -1;
         }
     }
-    public float ConstructionRatio { get => _constructionRatio; }
+    public int ConstructionHP { get => _constructionHP; }
     public override bool IsAlive { get => _isAlive; set { _isAlive = value; } }
 }

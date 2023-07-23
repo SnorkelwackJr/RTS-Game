@@ -9,6 +9,7 @@ public class GameSoundParameters : GameParameters
    public AudioClip onStationCaptureSound;
    public AudioClip onStationLostSound;
    public AudioClip onBuildingPlacedSound;
+   public AudioClip constructionSiteSound;
 
    [Range(-80, -12)]
     public int musicVolume;

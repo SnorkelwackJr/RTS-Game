@@ -55,8 +55,7 @@ public class BuildingManager : UnitManager
 
     public bool Build(int buildPower)
     {
-        _building.SetConstructionRatio(
-          _building.ConstructionRatio + (buildPower / 10f));
+        _building.SetConstructionHP(_building.ConstructionHP + buildPower);
         return _building.IsAlive;
     }
 }
