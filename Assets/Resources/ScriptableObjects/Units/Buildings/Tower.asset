@@ -15,7 +15,7 @@ MonoBehaviour:
   code: tower
   unitName: Tower
   description: This is a tall tower.
-  healthpoints: 250
+  healthpoints: 500
   fieldOfView: 30
   prefab: {fileID: 4065403192896604963, guid: 62e10f6ade1fcdc438460a922b127026, type: 3}
   cost:
@@ -32,3 +32,4 @@ MonoBehaviour:
   maxXP: 0
   onSelectSound: {fileID: 0}
   ambientSound: {fileID: 0}
+  constructionMeshes: []

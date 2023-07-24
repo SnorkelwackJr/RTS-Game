@@ -15,22 +15,23 @@ public class BuildingPlacer : MonoBehaviour
     private void Start()
     {
         instance = this;
-        
-        // instantiate headquarters at the beginning of the game
-        _placedBuilding = new Building(
-            GameManager.instance.gameGlobalParameters.initialBuilding,
-            GameManager.instance.gamePlayersParameters.myPlayerId
-        );
-        _placedBuilding.IsAlive = true;
-        _placedBuilding.SetPosition(GameManager.instance.startPosition);
 
-        // link the data into the manager
-        _placedBuilding.Transform.GetComponent<BuildingManager>().Initialize(_placedBuilding);
-        _PlaceBuilding();
-        
-        // make sure we have no building selected when the player starts
-        // to play
-        _CancelPlacedBuilding();
+        Transform spawnpoints = GameObject.Find("Spawnpoints").transform;
+
+        BuildingData initialBuilding = GameManager.instance.gameGlobalParameters.initialBuilding;
+        GamePlayersParameters p = GameManager.instance.gamePlayersParameters;
+        Vector3 pos;
+        for (int i = 0; i < p.players.Length; i++)
+        {
+            pos = spawnpoints.GetChild(i).position;
+            SpawnBuilding(initialBuilding, i, pos);
+            if (i == p.myPlayerId)
+            {
+                //FIXME
+                //Camera.main.GetComponent<CameraManager>().SetPosition(pos);
+                Camera.main.transform.position = pos - 100f * transform.forward;
+            }
+        }
     }
 
     void Update()
@@ -157,7 +158,7 @@ public class BuildingPlacer : MonoBehaviour
         }
         if (um == null) return;
         _builderManager = um;
-        
+
         string buildingCode = (string)data;
         for (int i = 0; i < Globals.BUILDING_DATA.Length; i++)
         {

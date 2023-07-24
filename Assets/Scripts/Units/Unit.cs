@@ -51,6 +51,12 @@ public class Unit
         _owner = owner;
 
         _transform.GetComponent<UnitManager>().Initialize(this);
+
+        // setup minimap icon color with owner color
+        GamePlayersParameters p = GameManager.instance.gamePlayersParameters;
+        Color c = p.players[owner].color;
+        Transform minimapIcon = _transform.Find("Mesh/MinimapIcon"); //FIXME eventually replace this with an icon name specific to each unit
+        minimapIcon.GetComponent<Renderer>().material.color = c;
     }
 
     public void SetPosition(Vector3 position)
